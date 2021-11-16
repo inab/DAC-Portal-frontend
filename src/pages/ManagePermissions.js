@@ -8,11 +8,13 @@ import {
   Table,
   Button
 } from "react-bootstrap";
+
+const { REACT_APP_HOST } = process.env
  
 const RequestsStatus = () => {
 
   const [request, setRequest] = useState({ type: 'get',
-                                           url: 'http://localhost:8081/permissions', 
+                                           url: `http://${REACT_APP_HOST}:8081/permissions`, 
                                            token: localStorage.getItem("react-token"),
                                            params: {
                                                'format' : "PLAIN",
@@ -50,7 +52,7 @@ const RequestsStatus = () => {
   const handlePermissions = async (e, d) => {
     e.preventDefault();
     setRequest({ type: 'delete', 
-                 url: 'http://localhost:8081/permissions', 
+                 url: `http://${REACT_APP_HOST}:8081/permissions`, 
                  token: localStorage.getItem("react-token"),
                  params: {
                     'values' : `${d.ga4gh_visa_v1.value}`,

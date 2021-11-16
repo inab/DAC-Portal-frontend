@@ -6,7 +6,7 @@ import routes from "routes.js";
 
 function Header() {
   const location = useLocation();
-  const logout = process.env.REACT_APP_AUTH_URL + "/realms/IPC/protocol/openid-connect/logout?redirect_uri=" + process.env.REACT_APP_URL;
+  const logout = process.env.REACT_APP_AUTH_URL + "/realms/IPC/protocol/openid-connect/logout?redirect_uri=" + process.env.REACT_APP_LOGOUT_URL;
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
       if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {

@@ -8,11 +8,13 @@ import {
   Table,
   Button
 } from "react-bootstrap";
- 
+
+const { REACT_APP_HOST } = process.env
+
 const RequestsStatus = () => {
 
   const [request, setRequest] = useState({ type: 'get',
-                                           url: 'http://localhost:9090/dac/read', 
+                                           url: `http://${REACT_APP_HOST}:9090/dac/read`, 
                                            token: localStorage.getItem("react-token"),
                                            params: {
                                             'format' : null,
@@ -75,7 +77,7 @@ const RequestsStatus = () => {
     }]   
 
     setRequest({ type: 'post', 
-                 url: 'http://localhost:8081/permissions', 
+                 url: `http://${REACT_APP_HOST}:8081/permissions`, 
                  token: localStorage.getItem("react-token"),
                  data: assertions,
                  params: {

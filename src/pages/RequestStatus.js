@@ -6,11 +6,13 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
- 
+
+const { REACT_APP_HOST } = process.env
+
 const RequestsStatus = () => {
 
   const [request, setRequest] = useState({ type: 'get', 
-                                           url: 'http://localhost:9090/user/status', 
+                                           url: `http://${REACT_APP_HOST}:9090/user/status`, 
                                            token: localStorage.getItem("react-token") });
   const [response, setResponse] = useState([]);
   const [mainTitles, setMainTitles] = useState({ title: "My requests status", 
