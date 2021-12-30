@@ -35,13 +35,13 @@ app.set('trust proxy', true);
 
 initDb( db => {
 
-	app.use('/user', userRoutes({ serverConf, db, keycloak }));
+	app.use('/user', userRoutes({ keycloak }));
 
-	app.use('/dac', dacRoutes({ serverConf, db, keycloak }));
+	app.use('/dac', dacRoutes({ keycloak }));
 
 	app.use(errors)
 
-	app.server.listen(process.env.PORT || serverConf.port, () => {
+	app.server.listen(process.env.PORT_API || serverConf.port, () => {
 		console.log(`Started on port ${app.server.address().port}`);
 	});
 });

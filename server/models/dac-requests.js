@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
-const dacMemberSchema = new mongoose.Schema({
+const dacRequestsSchema = new mongoose.Schema({
+    dacId: {
+        type: String,
+        required: true
+    },
     requests: [{
         user: {
             type: String,
@@ -14,15 +18,11 @@ const dacMemberSchema = new mongoose.Schema({
             comment: {
                 type: String,
                 required: true
-            },
-            status: {
-                type: String,
-                required: true
             }
         }]
     }]
-},{ collection: 'dac-member' });
+},{ collection: 'dac-requests' });
 
-const DacMember = mongoose.model('dac-member', dacMemberSchema);
+const DacRequests = mongoose.model('dac-requests', dacRequestsSchema);
 
-exports.DacMember = DacMember;
+exports.DacRequests = DacRequests;
