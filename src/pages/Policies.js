@@ -1,20 +1,76 @@
-import React from "react";
-
-// react-bootstrap components
-
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
-  Badge,
   Button,
   Card,
-  Navbar,
-  Nav,
   Table,
   Container,
   Row,
   Col,
 } from "react-bootstrap";
 
+const { REACT_APP_HOST } = process.env
+
 function Policies() {
+  const [request, setRequest] = useState({ type: 'get',
+                                           url: `http://${REACT_APP_HOST}:9090/dac/data`, 
+                                           token: localStorage.getItem("react-token") });
+                
+  const [response, setResponse] = useState([]);
+
+  useEffect(() => {
+    const apiRequest = async () => {
+      const query = await axios({ 
+        method: request.type, 
+        url: request.url, 
+        headers: {
+          Authorization: "Bearer " + request.token
+        },
+        params: request.params,
+      }).then(res => {
+        res = res.data;
+
+        let destructured = [];
+
+        res.map(dacData => {
+            let { dacId } = dacData;
+            dacData.files.map(fileObj => {
+                let { fileId, policy } = fileObj;
+                destructured.push({
+                    dacId, fileId, policy
+                })
+            })
+        })
+        return destructured
+      }).catch(error => {
+      });
+      setResponse(query);
+    };
+    apiRequest();
+  }, [request]);
+
+  const updatePolicies = async (e, d, idx) => {
+    e.preventDefault();
+    console.log(idx)
+    console.log(d)
+    setRequest({ type: 'put', 
+                 url: `http://${REACT_APP_HOST}:9090/dac/policies`, 
+                 token: localStorage.getItem("react-token"),
+                 params: {
+                    'dac-id' : `${d.dacId}`,
+                    'ds-id' : `${d.fileId}`,
+                    'policy': `${d.policy}` } });
+  }
+
+  const changePolicy = (e) => {
+    e.preventDefault();
+    let updatedData = [...response];
+    let idx = e.target.getAttribute('data-id');
+    let value = e.target.value;
+    updatedData[idx]['policy'] = value;
+    setResponse(updatedData)
+  }
+
   return (
     <>
       <Container fluid>
@@ -23,7 +79,6 @@ function Policies() {
             <h4> Create policies</h4>
             <p> Here you can add new policies for the different datasets of your DACs. </p>
             <br/>
-            <h5> CHOP </h5>
             <Card>
               <Card.Body className="table-full-width table-responsive px-0">
                 <Table className="table-hover">
@@ -31,53 +86,22 @@ function Policies() {
                     <tr>
                       <th className="border-0"> DAC ID </th>
                       <th className="border-0"> Dataset </th>
+                      <th className="border-0"> Policy </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>CHOP</td>
-                      <td>CHOP_000</td>
-                      <td class="text-right">
-                        <Button variant="success" className="btn-fill disabled">Update</Button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>CHOP</td>
-                      <td>CHOP_001</td>
-                      <td class="text-right">
-                        <Button variant="success" className="btn-fill disabled">Update</Button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-            <br/>
-            <h5> R2 </h5>
-            <Card>
-              <Card.Body className="table-full-width table-responsive px-0">
-                <Table className="table-hover">
-                  <thead>
-                    <tr>
-                      <th className="border-0"> DAC ID </th>
-                      <th className="border-0"> Dataset </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>R2</td>
-                      <td>R2_000</td>
-                      <td class="text-right">
-                        <Button variant="success" className="btn-fill info disabled">Update</Button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>R2</td>
-                      <td>R2_001</td>
-                      <td class="text-right">
-                        <Button variant="success" className="btn-fill info disabled">Update</Button>
-                      </td>
-                    </tr>
+                    {response.map((d, idx) => (
+                      <tr>
+                        <td> {d.dacId} </td>
+                        <td> {d.fileId} </td>
+                        <td className="text-center">
+                          <input data-id={idx} type="text" value={d.policy} onChange={changePolicy}/>
+                        </td>
+                        <td className="text-center">
+                          <Button variant="success" className="btn-block btn-fill" onClick={(e) => updatePolicies(e,d, idx)}>Update</Button>
+                        </td>       
+                      </tr>
+                    ))}
                   </tbody>
                 </Table>
               </Card.Body>
