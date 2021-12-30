@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { itemsDestructuring } from '../utils/utils';
 import axios from 'axios';
 import {
   Card,
@@ -14,7 +15,7 @@ const { REACT_APP_HOST } = process.env
 const RequestsStatus = () => {
 
   const [request, setRequest] = useState({ type: 'get',
-                                           url: `http://${REACT_APP_HOST}:9090/dac/read`, 
+                                           url: `http://${REACT_APP_HOST}:9090/dac/requests`, 
                                            token: localStorage.getItem("react-token"),
                                            params: {
                                             'format' : null,
@@ -26,10 +27,10 @@ const RequestsStatus = () => {
 
   const [mainTitles, setMainTitles] = useState({ title: "Manage requests", 
                                                  subtitle: "Here you can grant/deny incoming Data Access Requests"})
-  const [cardTitles, setCardTitles] = useState(["User", "File ID", "Comments", "Status"])
+  const [cardTitles, setCardTitles] = useState(["User", "File ID", "Comments", "Access"])
 
   useEffect(() => {
-    const apiRequest = async () => {
+    (async () => {
       const query = await axios({ 
         method: request.type, 
         url: request.url, 
@@ -40,29 +41,18 @@ const RequestsStatus = () => {
         data: request.data
       }).then(res => {
           if(request.type === "get") {
-            res = res.data[0]["requests"]
-
-            let destructured = []
-
-            res.map(userReq => {
-                let { user, requests } = userReq;
-                requests.map(requestItems => {
-                    let { fileId, comment, status } = requestItems
-                    destructured.push({
-                        user, fileId, comment, status
-                    })
-                })
-            })
-            return destructured
+            res = [].concat(...res.data.map(item => item.requests))
+            return itemsDestructuring(res)
           } else {
-            alert("Granted! You won't see any change on the DAC-Portal UI (Not implemented yet). Hovewer, the POST request to the Permissions-API has been succesful! Please, login as dac-admin in order to see the changes (Manage permissions section)")
-            return response
+              alert("Granted! DAC-Portal UI update still to be implemented. Please, login with dac-admin and go to the Manage permissions section in order to see the newly created permissions.")
+              // Here we could use setRequest(get /read/dac)
+              return response
           }
       }).catch(error => {
       });
       setResponse(query);
-    };
-    apiRequest();
+    })();
+    //apiRequest();
   }, [request]);
 
   const handlePermissions = async (e, d) => {
@@ -94,12 +84,10 @@ const RequestsStatus = () => {
             <td> {d.user} </td>
             <td> {d.fileId} </td>
             <td> {d.comment} </td>
-            {d.status === "Pending" ?
-              <td className="text-center">
-                <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d)}>Grant</Button>
-                <Button variant="danger" className="btn-block btn-fill disabled" onClick={(e) => e.preventDefault()}>Deny</Button>
-              </td>
-            : <td className="text-center"> {d.status}</td>}
+            <td className="text-center">
+              <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d)}>Grant</Button>
+              <Button variant="danger" className="btn-block btn-fill disabled" onClick={(e) => e.preventDefault()}>Deny</Button>
+            </td>
           </tr>
         )
     })

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { itemsSelection, permissionsRequests } from '../utils/utils';
 import axios from 'axios';
 import {
   Card,
@@ -14,11 +15,11 @@ const { REACT_APP_HOST } = process.env
 const RequestsStatus = () => {
 
   const [request, setRequest] = useState({ type: 'get',
-                                           url: `http://${REACT_APP_HOST}:8081/permissions`, 
+                                           url: `http://${REACT_APP_HOST}:9090/dac/requests`, 
                                            token: localStorage.getItem("react-token"),
                                            params: {
-                                               'format' : "PLAIN",
-                                               'account-id': "42a55fa0-18e9-482b-8619-3d7caa757ac9"
+                                               'format' : null,
+                                               'account-id': null
                                            } });
                 
   const [response, setResponse] = useState([]);
@@ -26,35 +27,39 @@ const RequestsStatus = () => {
   const [mainTitles, setMainTitles] = useState({ title: "Manage permissions", 
                                                  subtitle: "Here you can revoke permissions which are related with your DACs"})
   const [cardTitles, setCardTitles] = useState(["User", "Type", "Timestamp", "FileId", "DAC", "BY", "Revoke"])
-
+  
   useEffect(() => {
-    const apiRequest = async () => {
-      const query = await axios({ 
-        method: request.type, 
-        url: request.url, 
-        headers: {
-          Authorization: "Bearer " + request.token
-        },
-        params: request.params,
-      }).then(res => {
-          if(request.type === "get") {
-            return res.data.map(el => { return JSON.parse(el) })
-          } else {
-            return response.filter(el => !el.ga4gh_visa_v1.value.includes(request.params['values']))
-          }
-      }).catch(error => {
-      });
-      setResponse(query);
-    };
-    apiRequest();
+    (async () => {
+      try {
+        let getUsersRequests = await axios({
+          method: request.type,
+          url: request.url, headers: {
+            Authorization: "Bearer " + request.token
+          },
+          params: request.params
+        })
+
+        if(request.type === "get") {
+          const requests = [].concat(...getUsersRequests.data.map(item => item.requests)); 
+          const uniqueItems = itemsSelection(requests);
+          const response = await permissionsRequests(uniqueItems[0], uniqueItems[1]);
+          setResponse(response)
+        } else {
+          const removeItem = response.filter(el => !el.ga4gh_visa_v1.value.includes(request.params['values']));
+          setResponse(removeItem)
+        }
+      } catch (err) {
+        console.log("error ", err.message) 
+      }
+    })();
   }, [request]);
 
   const handlePermissions = async (e, d) => {
     e.preventDefault();
-    setRequest({ type: 'delete', 
-                 url: `http://${REACT_APP_HOST}:8081/permissions`, 
-                 token: localStorage.getItem("react-token"),
-                 params: {
+    setRequest({  type: 'delete', 
+                  url: `http://${REACT_APP_HOST}:8081/permissions`, 
+                  token: localStorage.getItem("react-token"),
+                  params: {
                     'values' : `${d.ga4gh_visa_v1.value}`,
                     'account-id': `${d.sub}` } });
     }
