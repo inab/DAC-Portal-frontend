@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const { REACT_APP_HOST } = process.env
+const { REACT_APP_PERMISSIONS_URL } = process.env
 
 const permissionsRequests = async (uniqueUsers, uniqueFiles) => {
     let reqList = [];
     for (var i = 0; i < uniqueUsers.length; i++) {
       let axiosReq = await axios({
         method: 'get',
-        url: `http://${REACT_APP_HOST}:8081/permissions`,
+        url: `${REACT_APP_PERMISSIONS_URL}/permissions`,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("react-token")
         },

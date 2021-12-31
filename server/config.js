@@ -5,7 +5,7 @@ require('dotenv').config();
 var keycloakConfig = {
     "realm": "IPC",
     "auth-server-url": process.env.KEYCLOAK_URL,
-    "ssl-required": "none",
+    "ssl-required": "external",
     "resource": "dac-portal-api",
     "verify-token-audience": true,
     "credentials": {

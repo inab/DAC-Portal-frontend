@@ -10,12 +10,12 @@ import {
   Button
 } from "react-bootstrap";
 
-const { REACT_APP_HOST } = process.env
+const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
 
 const RequestsStatus = () => {
 
   const [request, setRequest] = useState({ type: 'get',
-                                           url: `http://${REACT_APP_HOST}:9090/dac/requests`, 
+                                           url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`, 
                                            token: localStorage.getItem("react-token"),
                                            params: {
                                             'format' : null,
@@ -42,10 +42,11 @@ const RequestsStatus = () => {
       }).then(res => {
           if(request.type === "get") {
             res = [].concat(...res.data.map(item => item.requests))
+            console.log(res)
             return itemsDestructuring(res)
           } else {
               alert("Granted! DAC-Portal UI update still to be implemented. Please, login with dac-admin and go to the Manage permissions section in order to see the newly created permissions.")
-              // Here we could use setRequest(get /read/dac)
+              // Her we could use setRequest(get /read/dac)
               return response
           }
       }).catch(error => {
@@ -67,7 +68,7 @@ const RequestsStatus = () => {
     }]   
 
     setRequest({ type: 'post', 
-                 url: `http://${REACT_APP_HOST}:8081/permissions`, 
+                 url: `${REACT_APP_PERMISSIONS_URL}/permissions`, 
                  token: localStorage.getItem("react-token"),
                  data: assertions,
                  params: {

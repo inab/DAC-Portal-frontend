@@ -7,12 +7,12 @@ import {
   Col,
 } from "react-bootstrap";
 
-const { REACT_APP_HOST } = process.env
+const { REACT_APP_PERMISSIONS_URL } = process.env
 
 const History = () => {
 
   const [request, setRequest] = useState({ type: 'get', 
-                                           url: `http://${REACT_APP_HOST}:8081/request`, 
+                                           url: `${REACT_APP_PERMISSIONS_URL}:8081/request`, 
                                            token: localStorage.getItem("react-token") });
   const [response, setResponse] = useState([]);
   const [mainTitles, setMainTitles] = useState({ title: "History", 

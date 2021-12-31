@@ -9,11 +9,11 @@ import {
   Col,
 } from "react-bootstrap";
 
-const { REACT_APP_HOST } = process.env
+const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 function Policies() {
   const [request, setRequest] = useState({ type: 'get',
-                                           url: `http://${REACT_APP_HOST}:9090/dac/data`, 
+                                           url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/data`, 
                                            token: localStorage.getItem("react-token") });
                 
   const [response, setResponse] = useState([]);
@@ -54,7 +54,7 @@ function Policies() {
     console.log(idx)
     console.log(d)
     setRequest({ type: 'put', 
-                 url: `http://${REACT_APP_HOST}:9090/dac/policies`, 
+                 url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`, 
                  token: localStorage.getItem("react-token"),
                  params: {
                     'dac-id' : `${d.dacId}`,
