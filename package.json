@@ -54,7 +54,10 @@
     "build-server": "babel src/ --out-dir dist",
     "serve": "node dist/index.js",
     "start-server": "NODE_ENV=dev nodemon --ignore keys.json -w src --exec \"babel-node server/index.js\"",
-    "start-all": "concurrently \"npm run start-server\" \"npm run start\""
+    "start-all": "concurrently \"npm run start-server\" \"npm run start\"",
+    "test": "npx cypress run --headless --browser=chrome",
+    "cypress:serve": "cross-env NODE_ENV=test parcel serve --no-cache public/index.html",
+    "cypress:run": "cypress run"
   },
   "browserslist": {
     "production": [
@@ -73,6 +76,8 @@
     "@babel/core": "^7.14.6",
     "@babel/node": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
+    "cypress": "^7.6.0",
+    "cypress-localstorage-commands": "^1.4.5",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",
     "keycloak-request-token": "^0.1.0",
