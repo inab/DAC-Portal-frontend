@@ -1,0 +1,79 @@
+version: '3'
+services:
+  dac-portal:
+    build:
+      context: .
+      dockerfile: Dockerfile.tests
+    ports:
+      - "3080:3080"
+      - "9090:9090"
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+      - keycloak
+    networks:
+      dac-network:
+        ipv4_address: 172.21.0.14
+  permissions-api:
+    image: acavalls/ipc-permissions-api:latest
+    container_name: permissions-api-test
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongo
+      - keycloak
+    env_file:
+      - .env-permissions
+    networks:
+      dac-network:
+        ipv4_address: 172.21.0.11
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      dac-network:
+        ipv4_address: 172.21.0.13
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      DB_VENDOR: ${DB_VENDOR}
+      DB_ADDR: ${DB_ADDR}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_PASSWORD: ${DB_PASSWORD}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+    volumes:
+      - "./ipc-test-data/keycloak/realms:/opt/jboss/keycloak/imports"
+      - "./ipc-plugins/keycloak:/opt/jboss/keycloak/standalone/deployments"
+    command:
+      - '-b 0.0.0.0 -Dkeycloak.profile.feature.upload_scripts=enabled -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/opt/jboss/keycloak/imports/realm-export.json -Dkeycloak.migration.strategy=IGNORE_EXISTING'
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+    networks:
+      dac-network:
+        ipv4_address: 172.21.0.12
+  mongo:
+    image: mongo:4.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    ports:
+      - 27017:27017
+    volumes:
+      - "./ipc-test-data/mdbdata:/data/db"
+    networks:
+      dac-network:
+        ipv4_address: 172.21.0.10
+networks:
+  dac-network:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
