@@ -1,0 +1,19 @@
+{
+    "baseUrl" : "http://172.21.0.14:3080",
+    "permissions-api-url" : "http://172.21.0.1:8081",
+    "outbox-api-url" : "http://172.21.0.1:8085",
+    "es-url" : "http://172.21.0.1:9200",
+    "chromeWebSecurity": false,
+    "integrationFolder" : "cypress/e2e",
+    "defaultCommandTimeout" : 10000,
+    "retries" : {
+        "runMode" : 5
+    },
+    "env" : {
+        "logoutUrl" : "http://172.21.0.12:8080/auth/realms/IPC/protocol/openid-connect/logout?redirect_uri=http://172.21.0.14:3080",
+        "regularUsername" : "user-1",
+        "regularUserPassword" : "user-1",
+        "adminUsername" : "dac-admin-1",
+        "adminUserPassword" : "dac-admin-1"
+    }
+}
