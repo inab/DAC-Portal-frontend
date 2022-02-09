@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Pull submodules: Test data and plugins
+          name: Pull test data and plugins submodules
           command: |
             git submodule init
             git submodule update
