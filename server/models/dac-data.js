@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Joi from 'joi';
 
 const dacDataSchema = new mongoose.Schema({
     dacId: {
@@ -13,6 +14,10 @@ const dacDataSchema = new mongoose.Schema({
         policy: {
             type: String,
             required: true
+        },
+        acl: {
+            type: String,
+            required: true
         }
     }],
     members: [{
@@ -23,4 +28,14 @@ const dacDataSchema = new mongoose.Schema({
 
 const DacData = mongoose.model('dacs', dacDataSchema);
 
+function validatePolicies(queryObject){
+    const schema = Joi.object().keys({
+        dacId: Joi.string().length(14).required(),
+        dsId: Joi.string().uri({ scheme: ['https']}).required(),
+        policy:  Joi.string().required()
+    })   
+    return schema.validate(queryObject);
+}
+
 exports.DacData = DacData;
+exports.validatePolicies = validatePolicies;
