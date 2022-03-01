@@ -35,10 +35,18 @@ const getDacData = async (id) => {
 // 1.c. Update policy: DAC Data.
 
 const updatePolicies = async (id, dac, file, policy) => {
+
+    let resourceData = await DacData.find({ 'dacId' : dac, 'files.fileId' : file })
+                                    .select({'_id' : 0, 'files.$' : 1 });
+
+    let { acl } = resourceData[0].files[0];
+
     let obj = {
         'fileId' : file,
-        'policy' : policy
+        'policy' : policy,
+        'acl'    : acl  
     }
+    
     let response = await DacData.findOneAndUpdate({ 'dacId' : dac, 'files.fileId' : file },
                                 { $set : { 'files.$' : obj }});
 
