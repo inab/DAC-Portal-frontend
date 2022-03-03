@@ -23,6 +23,15 @@ jobs:
           environment:
             DOCKERIZE_VERSION: v0.3.0
       - run:
+          name: Start KEYCLOAK
+          command: |
+            docker-compose -f docker-compose.tests.yml up -d keycloak
+      - run:
+          name: Wait for keycloak
+          command: |
+            docker-compose -f docker-compose.tests.yml logs keycloak
+            dockerize -wait tcp://172.21.0.1:8080 -timeout 5m
+      - run:
           name: Start MONGO
           command: |
             docker-compose -f docker-compose.tests.yml up -d mongo
@@ -33,22 +42,20 @@ jobs:
             docker-compose -f docker-compose.tests.yml logs mongo
             dockerize -wait tcp://172.21.0.1:27017 -timeout 5m
       - run:
-          name: KC providers permissions
+          name: KC & MongoDB permissions
           command: |
+            sudo usermod -a -G docker $USER
             sudo chmod -R 777 ./
-            docker-compose -f docker-compose.tests.yml logs
-            sleep 5
-      - run:
-          name: Start KEYCLOAK
-          command: |
-            docker-compose -f docker-compose.tests.yml up -d keycloak
-            docker-compose -f docker-compose.tests.yml logs
       - run:
           name: Run DAC-Portal
           command: |
             docker-compose -f docker-compose.tests.yml up -d dac-portal
             docker-compose -f docker-compose.tests.yml logs
-            sleep 60
+      - run:
+          name: Wait for DAC-Portal
+          command: |
+            docker-compose -f docker-compose.tests.yml logs dac-portal
+            dockerize -wait tcp://172.21.0.1:3080 -timeout 10m
       - run:
           name: Start Permissions-API
           command: |
