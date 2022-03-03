@@ -42,12 +42,11 @@ const RequestsStatus = () => {
       }).then(res => {
           if(request.type === "get") {
             res = [].concat(...res.data.map(item => item.requests))
-            console.log(res)
             return itemsDestructuring(res)
           } else {
-              alert("Granted! DAC-Portal UI update still to be implemented. Please, login with dac-admin and go to the Manage permissions section in order to see the newly created permissions.")
-              // Her we could use setRequest(get /read/dac)
-              return response
+            let removeItem = response.filter((el, idx) => idx !== request.index);
+            // This specific item should be removed in the dac-requests collection. As for now, only the UI will be updated upon permissions addition. 
+            return removeItem
           }
       }).catch(error => {
       });
@@ -56,7 +55,7 @@ const RequestsStatus = () => {
     //apiRequest();
   }, [request]);
 
-  const handlePermissions = async (e, d) => {
+  const handlePermissions = async (e, d, idx) => {
     e.preventDefault();
 
     let assertions = [{
@@ -74,7 +73,8 @@ const RequestsStatus = () => {
                  params: {
                      'format' : "PLAIN",
                      'account-id' : `${d.user}`
-                 }
+                 }, 
+                 index: idx
     })
   }
 
@@ -86,7 +86,7 @@ const RequestsStatus = () => {
             <td> {d.fileId} </td>
             <td> {d.comment} </td>
             <td className="text-center">
-              <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d)}>Grant</Button>
+              <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d, idx)}>Grant</Button>
               <Button variant="danger" className="btn-block btn-fill disabled" onClick={(e) => e.preventDefault()}>Deny</Button>
             </td>
           </tr>
