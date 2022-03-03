@@ -18,6 +18,11 @@ jobs:
             git submodule init
             git submodule update
       - run:
+          name: KC & MongoDB permissions
+          command: |
+            sudo usermod -a -G docker $USER
+            sudo chmod -R 777 ./
+      - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
           environment:
@@ -41,11 +46,6 @@ jobs:
           command: |
             docker-compose -f docker-compose.tests.yml logs mongo
             dockerize -wait tcp://172.21.0.1:27017 -timeout 5m
-      - run:
-          name: KC & MongoDB permissions
-          command: |
-            sudo usermod -a -G docker $USER
-            sudo chmod -R 777 ./
       - run:
           name: Run DAC-Portal
           command: |
