@@ -1,7 +1,3 @@
-Cypress.Commands.add('getStore', () => { 
-  cy.window().its('store');
-});
-
 Cypress.Commands.add('login', (username, pwd) => { 
   cy.get("#username").type(username);
   cy.get("#password").type(pwd);
