@@ -45,7 +45,7 @@ const RequestsStatus = () => {
           const response = await permissionsRequests(uniqueItems[0], uniqueItems[1]);
           setResponse(response)
         } else {
-          const removeItem = response.filter(el => !el.ga4gh_visa_v1.value.includes(request.params['values']));
+          let removeItem = response.filter((el, idx) => idx !== request.index);
           setResponse(removeItem)
         }
       } catch (err) {
@@ -54,15 +54,16 @@ const RequestsStatus = () => {
     })();
   }, [request]);
 
-  const handlePermissions = async (e, d) => {
+  const handlePermissions = async (e, d, idx) => {
     e.preventDefault();
     setRequest({  type: 'delete', 
                   url: `${REACT_APP_PERMISSIONS_URL}/permissions`, 
                   token: localStorage.getItem("react-token"),
                   params: {
                     'values' : `${d.ga4gh_visa_v1.value}`,
-                    'account-id': `${d.sub}` } });
-    }
+                    'account-id': `${d.sub}` },
+                  index: idx }); 
+  }
  
   const ShowResponse = () => {
     return response.map((d, idx) => {
@@ -75,7 +76,7 @@ const RequestsStatus = () => {
                 <td> {d.ga4gh_visa_v1.source} </td>
                 <td> {d.ga4gh_visa_v1.by} </td>
                 <td className="text-center">
-                    <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d)}>Revoke</Button>
+                    <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d, idx)}>Revoke</Button>
                 </td>       
             </tr>
         )
