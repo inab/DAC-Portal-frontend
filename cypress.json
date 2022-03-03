@@ -1,8 +1,7 @@
 {
     "baseUrl" : "http://172.21.0.14:3080",
     "permissions-api-url" : "http://172.21.0.1:8081",
-    "outbox-api-url" : "http://172.21.0.1:8085",
-    "es-url" : "http://172.21.0.1:9200",
+    "dac-portal-api-url" : "http://172.21.0.1:9090",
     "chromeWebSecurity": false,
     "integrationFolder" : "cypress/e2e",
     "defaultCommandTimeout" : 10000,
@@ -14,6 +13,8 @@
         "regularUsername" : "user-1",
         "regularUserPassword" : "user-1",
         "adminUsername" : "dac-admin-1",
-        "adminUserPassword" : "dac-admin-1"
+        "adminUserPassword" : "dac-admin-1",
+        "memberUsername" : "dac-member-1",
+        "memberUserPassword" : "dac-member-1"
     }
 }
