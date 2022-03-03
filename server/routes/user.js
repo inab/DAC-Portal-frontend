@@ -7,14 +7,11 @@ export default ({ keycloak }) => {
 
 	api.post('/request', keycloak.protect(), async function(req,res) {
 		const userInfo = jwt_decode(req.headers.authorization)
-		const fileId = req.param('ds-id');
-		const comments = req.param('comments');
-		const response = await postRequest(userInfo.sub, fileId, comments);
+		const response = await postRequest(userInfo.sub, req.param('ds-id'), req.param('comments'));
 		res.send(response)
 	})
 	api.get('/policies', keycloak.protect(), async function(req,res) {
-		const fileId = req.param('ds-id');
-		const response = await getPolicies(fileId);
+		const response = await getPolicies(req.param('ds-id'));
 		res.send(response)
 	})
 	// Just for giving an example: Status addition has still to be decided (and where should be displayed (i.e Catalogue portal))
