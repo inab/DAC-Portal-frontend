@@ -1,41 +1,27 @@
 version: 2.1
 
 workflows:
-  test-DAC-Portal:
+  test-and-publish-permissions-API:
     jobs:
       - run-tests:
-          name: DAC-Portal
+          name: test-api
 jobs:
   run-tests:
     machine:
       image: ubuntu-1604:202007-01
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
-      - run:
-          name: Pull test data and plugins submodules
-          command: |
-            git submodule init
-            git submodule update
-      - run:
-          name: KC & MongoDB permissions
-          command: |
-            sudo usermod -a -G docker $USER
-            sudo chmod -R 777 ./
       - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
           environment:
             DOCKERIZE_VERSION: v0.3.0
       - run:
-          name: Start KEYCLOAK
+          name: Pull test data and plugins submodules
           command: |
-            docker-compose -f docker-compose.tests.yml up -d keycloak
-      - run:
-          name: Wait for keycloak
-          command: |
-            docker-compose -f docker-compose.tests.yml logs keycloak
-            dockerize -wait tcp://172.21.0.1:8080 -timeout 5m
+            git submodule init
+            git submodule update
       - run:
           name: Start MONGO
           command: |
@@ -47,15 +33,22 @@ jobs:
             docker-compose -f docker-compose.tests.yml logs mongo
             dockerize -wait tcp://172.21.0.1:27017 -timeout 5m
       - run:
+          name: KC providers permissions
+          command: |
+            sudo chmod -R 777 ./
+            docker-compose -f docker-compose.tests.yml logs
+            sleep 5
+      - run:
+          name: Start KEYCLOAK
+          command: |
+            docker-compose -f docker-compose.tests.yml up -d keycloak
+            docker-compose -f docker-compose.tests.yml logs
+      - run:
           name: Run DAC-Portal
           command: |
             docker-compose -f docker-compose.tests.yml up -d dac-portal
             docker-compose -f docker-compose.tests.yml logs
-      - run:
-          name: Wait for DAC-Portal
-          command: |
-            docker-compose -f docker-compose.tests.yml logs dac-portal
-            dockerize -wait tcp://172.21.0.1:3080 -timeout 10m
+            sleep 60
       - run:
           name: Start Permissions-API
           command: |
