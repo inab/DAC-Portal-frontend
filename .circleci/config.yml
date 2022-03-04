@@ -1,10 +1,21 @@
 version: 2.1
 
 workflows:
-  test-and-publish-permissions-API:
+  test-and-publish-dac-portal:
     jobs:
       - run-tests:
-          name: test-api
+          name: test-dac
+      - hold:
+          type: approval
+          requires:
+            - test-dac
+      - publish:
+          requires:
+            - test-dac
+            - hold
+          filters:
+            branches:
+              only: master
 jobs:
   run-tests:
     machine:
@@ -61,3 +72,21 @@ jobs:
             docker-compose -f docker-compose.tests.yml logs
             sleep 60
             docker-compose -f docker-compose.tests.yml exec dac-portal npm run cypress:run
+  publish:
+    docker:
+      - image: cimg/node:16.4.1
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: false
+      - run: 
+          command: | 
+            TAG=0.1.${CIRCLE_BUILD_NUM} 
+            docker build -f Dockerfile.production -t acavalls/ipc-dac-portal:$TAG -t acavalls/ipc-dac-portal:latest .
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push acavalls/ipc-dac-portal:$TAG
+            docker push acavalls/ipc-dac-portal:latest
