@@ -26,10 +26,11 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) => {
     let roles;
 
     if (keycloak.tokenParsed["dac:roles"]) {
-        roles = keycloak.tokenParsed["dac:roles"].filter(n => n)[0];
-        if (roles.map(el => el.includes("dac-admin"))) {
+        roles = keycloak.tokenParsed["dac:roles"].filter(n => n)[0]
+                                                 .map(el => el.split(":").pop());
+        if (roles.includes("dac-admin")) {
             localStorage.setItem("role", 'dac-admin');
-        } else if (roles.map(el => el.includes("dac-member"))) {
+        } else if (roles.includes("dac-member")) {
             localStorage.setItem("role", 'dac-member');
         }
     } else {
