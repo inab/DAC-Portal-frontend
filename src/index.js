@@ -29,7 +29,7 @@ keycloak.init({ onLoad: initOptions.onLoad }).success((auth) => {
         roles = keycloak.tokenParsed["dac:roles"].filter(n => n)[0];
         if (roles.map(el => el.includes("dac-admin"))) {
             localStorage.setItem("role", 'dac-admin');
-        } else if (roles.map(el => elincludes("dac-member"))) {
+        } else if (roles.map(el => el.includes("dac-member"))) {
             localStorage.setItem("role", 'dac-member');
         }
     } else {
