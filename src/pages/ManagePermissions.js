@@ -26,7 +26,7 @@ const RequestsStatus = () => {
 
   const [mainTitles, setMainTitles] = useState({ title: "Manage permissions", 
                                                  subtitle: "Here you can revoke permissions which are related with your DACs"})
-  const [cardTitles, setCardTitles] = useState(["User", "Type", "Timestamp", "FileId", "DAC", "BY", "Revoke"])
+  const [cardTitles, setCardTitles] = useState(["User", "Type", "Timestamp", "Value (Resource)", "DAC", "BY", "Revoke"])
   
   useEffect(() => {
     (async () => {

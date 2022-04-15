@@ -35,9 +35,9 @@ function Policies() {
         res.map(dacData => {
             let { dacId } = dacData;
             dacData.files.map(fileObj => {
-                let { fileId, policy } = fileObj;
+                let { fileId, policy, acl } = fileObj;
                 destructured.push({
-                    dacId, fileId, policy
+                    dacId, fileId, policy, acl
                 })
             })
         })
@@ -51,14 +51,13 @@ function Policies() {
 
   const updatePolicies = async (e, d, idx) => {
     e.preventDefault();
-    console.log(idx)
-    console.log(d)
     setRequest({ type: 'put', 
                  url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`, 
                  token: localStorage.getItem("react-token"),
                  params: {
                     'dac-id' : `${d.dacId}`,
                     'ds-id' : `${d.fileId}`,
+                    'acl' : `${d.acl}`,
                     'policy': `${d.policy}` } });
   }
 

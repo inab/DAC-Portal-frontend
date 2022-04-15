@@ -27,7 +27,7 @@ const RequestsStatus = () => {
 
   const [mainTitles, setMainTitles] = useState({ title: "Manage requests", 
                                                  subtitle: "Here you can grant/deny incoming Data Access Requests"})
-  const [cardTitles, setCardTitles] = useState(["User", "File ID", "Comments", "Access"])
+  const [cardTitles, setCardTitles] = useState(["User", "File ID", "Resource", "Comments", "Access"])
 
   useEffect(() => {
     (async () => {
@@ -61,7 +61,7 @@ const RequestsStatus = () => {
     let assertions = [{
         type : "ControlledAccessGrants",
         asserted: 1564814387,
-        value: `${d.fileId}`,
+        value: `${d.resource}`,
         source: "https://test-url/source_dac",
         by: "dac"
     }]   
@@ -84,6 +84,7 @@ const RequestsStatus = () => {
           <tr>
             <td> {d.user} </td>
             <td> {d.fileId} </td>
+            <td> {d.resource} </td>
             <td> {d.comment} </td>
             <td className="text-center">
               <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, d, idx)}>Grant</Button>
@@ -111,6 +112,7 @@ const RequestsStatus = () => {
                                     <th className="border-0">{cardTitles[1]}</th>
                                     <th className="border-0">{cardTitles[2]}</th>
                                     <th className="border-0">{cardTitles[3]}</th>
+                                    <th className="border-0">{cardTitles[4]}</th>
                                 </tr>
                             </thead>
                             <tbody>
