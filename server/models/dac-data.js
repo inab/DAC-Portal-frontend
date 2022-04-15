@@ -31,7 +31,7 @@ const DacData = mongoose.model('dacs', dacDataSchema);
 function validatePolicies(queryObject){
     const schema = Joi.object().keys({
         dacId: Joi.string().length(14).required(),
-        dsId: Joi.string().uri({ scheme: ['https']}).required(),
+        dsId: Joi.string().required(),
         policy:  Joi.string().required()
     })   
     return schema.validate(queryObject);

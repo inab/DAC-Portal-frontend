@@ -18,6 +18,10 @@ const dacRequestsSchema = new mongoose.Schema({
             comment: {
                 type: String,
                 required: true
+            },
+            resource: {
+                type: String,
+                required: true
             }
         }]
     }]
