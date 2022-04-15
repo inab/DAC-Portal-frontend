@@ -33,9 +33,9 @@ const itemsDestructuring = (obj) => {
   obj.map(userReq => {
     let { user, requests } = userReq;
     requests.map(requestItems => {
-      let { fileId, comment } = requestItems
+      let { fileId, resource, comment } = requestItems
       destructured.push({
-        user, fileId, comment
+        user, fileId, resource, comment
       })
     }
     )
@@ -49,7 +49,7 @@ const itemsSelection = (obj) => {
     const uniqueReqStr = new Set(destructured.map(JSON.stringify))
     const uniqueReqObj = Array.from(uniqueReqStr).map(el => { return JSON.parse(el) })
     const uniqueUsers = [...new Set(uniqueReqObj.map(item => item.user))];
-    const uniqueFiles = [...new Set(uniqueReqObj.map(item => item.fileId))];
+    const uniqueFiles = [...new Set(uniqueReqObj.map(item => item.resource))];
     
     return [uniqueUsers, uniqueFiles]
 }
