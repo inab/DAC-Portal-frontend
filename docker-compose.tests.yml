@@ -72,6 +72,20 @@ services:
     networks:
       dac-network:
         ipv4_address: 172.21.0.10
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+    networks:
+      private-network:
+        ipv4_address: 172.21.0.24
 networks:
   dac-network:
     ipam:
