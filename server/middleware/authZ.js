@@ -21,8 +21,7 @@ export default async (req, res, next) => {
     }
 
 	if(req.method === "PUT" && isDacAdmin) {
-        let resource = req.param('dac-id') + ":" + req.param('ds-id');
-		isControlledResource = checkResource(dacScopes.resources, resource);
+		isControlledResource = checkResource(dacScopes.resources, req.param('acl'));
 		if(!isControlledResource) throw createError(403, "Forbidden");
 	}
 
