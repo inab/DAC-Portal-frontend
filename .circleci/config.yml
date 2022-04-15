@@ -55,16 +55,16 @@ jobs:
             docker-compose -f docker-compose.tests.yml up -d keycloak
             docker-compose -f docker-compose.tests.yml logs
       - run:
-          name: Start RabbitMQ
-          command: |
-            docker-compose -f docker-compose.tests.yml up -d rabbitmq
-            sleep 10
-      - run:
           name: Run DAC-Portal
           command: |
             docker-compose -f docker-compose.tests.yml up -d dac-portal
             docker-compose -f docker-compose.tests.yml logs
             sleep 60
+      - run:
+          name: Start RabbitMQ
+          command: |
+            docker-compose -f docker-compose.tests.yml up -d rabbitmq
+            sleep 10
       - run:
           name: Start Permissions-API
           command: |

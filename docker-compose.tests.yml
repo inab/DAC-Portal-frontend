@@ -84,7 +84,7 @@ services:
         timeout: 10s
         retries: 5
     networks:
-      private-network:
+      dac-network:
         ipv4_address: 172.21.0.24
 networks:
   dac-network:
