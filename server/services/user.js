@@ -19,10 +19,16 @@ const getPolicies = async (file) => {
 
 const postRequest = async (id, file, comments) => {
     const getDacId = await DacData.find({ 'files.fileId' : file })
-                                  .select({'_id' : 0, 'dacId' : 1 });
+                                  .select({'_id' : 0, 'dacId': 1 });
+
+    const getAcl = await DacData.find({ 'files.fileId' : file })
+                                     .select({'_id' : 0, 'files.acl.$': 1 });
+
+    const resource = getAcl[0].files[0].acl.split(":").slice(1).join(":");
 
     let request = {
         'fileId' : file,
+        'resource' : resource,
         'comment' : comments,
         'status' : "Pending"
     }
