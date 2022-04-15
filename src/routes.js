@@ -57,6 +57,14 @@ const dashboardRoutes = [
     role: "dac-admin"
   },
   {
+    path: "/managerequests",
+    name: "Manage requests",
+    icon: "nc-icon nc-cctv",
+    component: ManageRequests,
+    layout: "/dac-admin",
+    role: "dac-admin"
+  },
+  {
     path: "/help",
     name: "Need help?",
     icon: "nc-icon nc-ambulance",
