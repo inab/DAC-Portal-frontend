@@ -23,7 +23,41 @@ const dacDataSchema = new mongoose.Schema({
     members: [{
         type: String,
         required: true
-    }]
+    }],
+    info: {
+        dacName: {
+            type: String,
+            required: true
+        },
+        dacStudy: {
+            type: String,
+            required: true
+        },
+        datasets: {
+            type: String,
+            required: true
+        },
+        adminName: {
+            type: String,
+            required: true
+        },
+        adminSurname: {
+            type: String,
+            required: true
+        },
+        emailAddress: {
+            type: String,
+            required: true
+        },
+        studyDescription: {
+            type: String,
+            required: true
+        },
+        status: {
+            type: Boolean,
+            required: true
+        }
+    }
 },{ collection: 'dacs' });
 
 const DacData = mongoose.model('dacs', dacDataSchema);
