@@ -9,6 +9,8 @@ export default async (req, res, next) => {
 	// Get DAC scopes.
 	const dacScopes = getAuthZ(dacInfo);
 	// User that does not belong to any DAC.
+	console.log("dac scopes")
+	console.log(dacScopes)
 	if(!dacScopes) throw createError(403, "Forbidden");
 	// Check if user has the dac-admin role (delete).
 	const isDacAdmin = checkRole(dacScopes.roles, "dac-admin");
@@ -20,7 +22,7 @@ export default async (req, res, next) => {
         if(!dacScopes) throw createError(403, "Forbidden");
     }
 
-	if(req.method === "PUT" && isDacAdmin) {
+	if(req.method === "PUT" && isDacAdmin && req.path !== "/info") {
 		isControlledResource = checkResource(dacScopes.resources, req.param('acl'));
 		if(!isControlledResource) throw createError(403, "Forbidden");
 	}
