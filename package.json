@@ -51,10 +51,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "build-server": "babel src/ --out-dir dist",
-    "serve": "node dist/index.js",
+    "build-server": "babel server/ --out-dir dist",
+    "serve": "NODE_ENV=prod babel-node dist/index.js",
     "start-server": "NODE_ENV=dev nodemon --ignore keys.json -w src --exec \"babel-node server/index.js\"",
     "start-all": "concurrently \"npm run start-server\" \"npm run start\"",
+    "start-all-prod": "concurrently \"npm run serve\" \"npm run start\"",
     "test": "npx cypress run --headless --browser=chrome",
     "cypress:serve": "cross-env NODE_ENV=test parcel serve --no-cache public/index.html",
     "cypress:run": "cypress run"

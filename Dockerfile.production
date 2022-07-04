@@ -6,6 +6,7 @@ COPY . .
 
 RUN npm install
 
+ENV KEYCLOAK_URL=https://inb.bsc.es/auth
 ENV REACT_APP_AUTH_URL=https://inb.bsc.es/auth
 ENV REACT_APP_AUTH_REALM=IPC
 ENV REACT_APP_AUTH_CLIENT=dac-portal
@@ -17,4 +18,7 @@ ENV HOST=0.0.0.0
 ENV PORT=3080
 ENV PORT_API=9090
 
-CMD ["npm", "run", "start-all"]
+RUN npm run build
+RUN npm run build-server
+
+CMD ["npm", "run", "start-all-prod"]
