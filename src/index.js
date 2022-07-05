@@ -1,57 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { getAccessToken, getRefreshToken, getUserRoles, userAuth } from './Services/ManageAuth';
 
-const Keycloak = require('keycloak-js');
+(async () => {
+    const isAuthenticated = await userAuth();
 
-const { REACT_APP_AUTH_URL, REACT_APP_AUTH_REALM, REACT_APP_AUTH_CLIENT } = process.env
+    if(!isAuthenticated) window.location.reload();
 
-let initOptions = {
-    url: REACT_APP_AUTH_URL, realm: REACT_APP_AUTH_REALM, clientId: REACT_APP_AUTH_CLIENT, onLoad: 'login-required'
-}
+    getUserRoles() !== null ? getUserRoles().includes("dac-admin")  ? localStorage.setItem("role", 'dac-admin') : 
+                                                                      localStorage.setItem("role", 'dac-member') 
+                            : localStorage.setItem("role", 'user')
+    
+    localStorage.setItem("react-token", getAccessToken());
+    localStorage.setItem("react-refresh-token", await getRefreshToken());
+    
+    ReactDOM.render(<App/>, document.getElementById('root'));
+})();
 
-let keycloak = Keycloak(initOptions);
-
-keycloak.init({ onLoad: initOptions.onLoad }).success((auth) => {
-
-    if (!auth) {
-        window.location.reload();
-    } else {
-        console.info("Authenticated");
-    }
-
-    localStorage.setItem("react-token", keycloak.token);
-    localStorage.setItem("react-refresh-token", keycloak.refreshToken);
-
-    let roles;
-
-    if (keycloak.tokenParsed["dac:roles"]) {
-        roles = keycloak.tokenParsed["dac:roles"].filter(n => n)[0]
-                                                 .map(el => el.split(":").pop());
-        if (roles.includes("dac-admin")) {
-            localStorage.setItem("role", 'dac-admin');
-        } else if (roles.includes("dac-member")) {
-            localStorage.setItem("role", 'dac-member');
-        }
-    } else {
-        localStorage.setItem("role", 'user');
-    }
-
-    setTimeout(() => {
-        keycloak.updateToken(70).success((refreshed) => {
-            if (refreshed) {
-                console.debug('Token refreshed' + refreshed);
-            } else {
-                console.warn('Token not refreshed, valid for '
-                    + Math.round(keycloak.tokenParsed.exp + keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds');
-            }
-        }).error(() => {
-            console.error('Failed to refresh token');
-        });
-    }, 60000)
-
-    ReactDOM.render(<App />, document.getElementById('root'));
-
-}).error(() => {
-    console.error("Authenticated Failed");
-});
