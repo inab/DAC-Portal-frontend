@@ -1,13 +1,22 @@
 import { Router } from 'express';
 import jwt_decode from "jwt-decode";
-import { getPolicies, postRequest, getRequestsStatus } from '../services/user';
+import { getPolicies, postRequest, getRequestsStatus, getRequestedFileData, buildRequestObject } from '../services/user';
+import createError from 'http-errors';
 
 export default ({ keycloak }) => {
 	let api = Router();
 
 	api.post('/request', keycloak.protect(), async function(req,res) {
 		const userInfo = jwt_decode(req.headers.authorization)
-		const response = await postRequest(userInfo.sub, req.param('ds-id'), req.param('comments'));
+		
+		const fileData = await getRequestedFileData(req.param('ds-id'))
+
+		if(!fileData) throw createError(404, "Not found. No DAC controlling this resource.")
+
+		const requestObject = buildRequestObject(req.param('ds-id'), fileData.resource, req.param('comments'), "Pending");
+
+		const response = await postRequest(userInfo.sub, fileData.dacId, requestObject);
+
 		res.send(response)
 	})
 	api.get('/policies', keycloak.protect(), async function(req,res) {
@@ -22,12 +31,4 @@ export default ({ keycloak }) => {
 	})
 
 	return api;
-
-	/*
-	api.post('/requestdac', keycloak.protect(), async function(req, res){
-        const userInfo = jwt_decode(req.headers.authorization)
-		// Request to become a DAC admin - HELPDESK PORTAL
-        const response = "User " + userInfo.sub + ": Request for getting a DAC admin role - submitted"
-        res.send(response)
-	*/	
 }
