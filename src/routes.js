@@ -4,7 +4,6 @@ import MyDACs from "./pages/MyDACs";
 import CreateDAC from "./pages/CreateDAC";
 import Policies from "./pages/Policies";
 import NeedHelp from "./pages/NeedHelp";
-import History from "./pages/History";
 import RequestsStatus from "./pages/RequestStatus";
 import ManageRequests from "./pages/ManageRequests";
 import ManagePermissions from "./pages/ManagePermissions";
@@ -101,14 +100,6 @@ const dashboardRoutes = [
     name: "User profile",
     icon: "nc-icon nc-circle-09",
     component: UserProfile,
-    layout: "/user",
-    role: "user"
-  },
-  {
-    path: "/history",
-    name: "History",
-    icon: "nc-icon nc-watch-time",
-    component: History,
     layout: "/user",
     role: "user"
   },
