@@ -7,21 +7,16 @@ const userSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 50
     },
-    requestDac: {
-        type: String
-    },
-    status: {
-        file: [{
-            fileId: {
-                type: String,
-                required: true
-            },
-            status: {
-                type: String,
-                required: true
-            }
-        }]
-    }, 
+    status: [{
+        fileId: {
+            type: String,
+            required: true
+        },
+        status: {
+            type: String,
+            required: true
+        }
+    }],
 }, { collection: 'user' });
 
 const User = mongoose.model('user', userSchema);
