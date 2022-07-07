@@ -29,4 +29,4 @@ const dacRequestsSchema = new mongoose.Schema({
 
 const DacRequests = mongoose.model('dac-requests', dacRequestsSchema);
 
-exports.DacRequests = DacRequests;
+export { DacRequests }

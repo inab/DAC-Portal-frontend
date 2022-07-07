@@ -71,5 +71,4 @@ function validatePolicies(queryObject){
     return schema.validate(queryObject);
 }
 
-exports.DacData = DacData;
-exports.validatePolicies = validatePolicies;
+export { DacData, validatePolicies }

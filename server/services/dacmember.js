@@ -92,9 +92,4 @@ const updateDacInfo = async (id, info) => {
     return response
 }
 
-exports.getUserRequests = getUserRequests;
-exports.getDacData = getDacData;
-exports.updatePolicies = updatePolicies;
-exports.updateDacInfo = updateDacInfo;
-exports.getPolicies = getPolicies;
-exports.getUserDacs = getUserDacs;
+export { getUserRequests, getDacData, getPolicies, getUserDacs, updatePolicies, updateDacInfo }

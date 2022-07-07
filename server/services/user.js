@@ -130,8 +130,4 @@ const getRequestsStatus = async (id) => {
     return response
 }  
 
-exports.getPolicies = getPolicies;
-exports.getRequestsStatus = getRequestsStatus;
-exports.getRequestedFileData = getRequestedFileData;
-exports.buildRequestObject = buildRequestObject;
-exports.requestTransaction = requestTransaction;
+export { getPolicies, getRequestsStatus, getRequestedFileData, buildRequestObject, requestTransaction }

@@ -14,6 +14,4 @@ const checkResource = (dacResources, resource) => {
     return dacResources.map(el => el.includes(resource)).includes(true)
 }
 
-exports.getAuthZ = getAuthZ;
-exports.checkRole = checkRole;
-exports.checkResource = checkResource;
+export { getAuthZ, checkRole, checkResource }
