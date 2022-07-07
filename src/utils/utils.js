@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const { REACT_APP_PERMISSIONS_URL } = process.env
 
-const permissionsRequests = async (uniqueUsers, uniqueFiles) => {
+const usersPermissions = async (uniqueUsers, uniqueFiles) => {
     let reqList = [];
     for (var i = 0; i < uniqueUsers.length; i++) {
       let axiosReq = await axios({
@@ -22,7 +22,7 @@ const permissionsRequests = async (uniqueUsers, uniqueFiles) => {
       let data = res.map(el => el.data)
       let assertions = Array.prototype.concat.apply([], data);
       return assertions.map(el => JSON.parse(el))
-        .filter(el2 => uniqueFiles.includes(el2.ga4gh_visa_v1.value))
+                       .filter(el2 => uniqueFiles.includes(el2.ga4gh_visa_v1.value))
     })
     return response
 }
@@ -44,7 +44,7 @@ const itemsDestructuring = (obj) => {
   return destructured
 }
 
-const itemsSelection = (obj) => { 
+const getUniqueRequests = (obj) => { 
     let destructured = itemsDestructuring(obj);
     const uniqueReqStr = new Set(destructured.map(JSON.stringify))
     const uniqueReqObj = Array.from(uniqueReqStr).map(el => { return JSON.parse(el) })
@@ -54,4 +54,4 @@ const itemsSelection = (obj) => {
     return [uniqueUsers, uniqueFiles]
 }
 
-export { itemsDestructuring, itemsSelection, permissionsRequests };
+export { itemsDestructuring, getUniqueRequests, usersPermissions };
