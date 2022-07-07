@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { itemsSelection, permissionsRequests } from '../utils/utils';
-import axios from 'axios';
-import {
-  Card,
-  Container,
-  Row,
-  Col,
-  Table,
-  Button
-} from "react-bootstrap";
+import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
+import { getUsersPermissions, deleteUserPermissions } from '../Services/ManagePermissions';
 
 const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
  
-const RequestsStatus = () => {
+const ManagePermissions = () => {
 
   const [request, setRequest] = useState({ type: 'get',
                                            url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`, 
@@ -22,7 +14,7 @@ const RequestsStatus = () => {
                                                'account-id': null
                                            } });
                 
-  const [response, setResponse] = useState([]);
+  const [items, setItems] = useState([]);
 
   const [mainTitles, setMainTitles] = useState({ title: "Manage permissions", 
                                                  subtitle: "Here you can revoke permissions which are related with your DACs"})
@@ -30,26 +22,12 @@ const RequestsStatus = () => {
   
   useEffect(() => {
     (async () => {
-      try {
-        let getUsersRequests = await axios({
-          method: request.type,
-          url: request.url, headers: {
-            Authorization: "Bearer " + request.token
-          },
-          params: request.params
-        })
-
-        if(request.type === "get") {
-          const requests = [].concat(...getUsersRequests.data.map(item => item.requests)); 
-          const uniqueItems = itemsSelection(requests);
-          const response = await permissionsRequests(uniqueItems[0], uniqueItems[1]);
-          setResponse(response)
-        } else {
-          let removeItem = response.filter((el, idx) => idx !== request.index);
-          setResponse(removeItem)
-        }
-      } catch (err) {
+      try { 
+        request.type === "get" ? setItems(await getUsersPermissions(request)) : 
+                                 setItems(await deleteUserPermissions(request, items))
+      } catch (err) { 
         console.log("error ", err.message) 
+        alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
       }
     })();
   }, [request]);
@@ -65,8 +43,8 @@ const RequestsStatus = () => {
                   index: idx }); 
   }
  
-  const ShowResponse = () => {
-    return response.map((d, idx) => {
+  const Items = () => {
+    return items.map((d, idx) => {
         return ( 
             <tr>
                 <td> {d.sub} </td>
@@ -86,7 +64,7 @@ const RequestsStatus = () => {
     <Container fluid>
       <h2> {mainTitles.title} </h2>
       <h4> {mainTitles.subtitle} </h4>
-      {response.length >= 1 ? (
+      {items.length >= 1 ? (
       <Row>
         <Col md="12">
             <Card className="strpied-tabled-with-hover">
@@ -104,7 +82,7 @@ const RequestsStatus = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <ShowResponse/>
+                          <Items/>
                         </tbody>
                     </Table>
                 </Card.Body>
@@ -115,4 +93,4 @@ const RequestsStatus = () => {
   )
 }
 
-export default RequestsStatus;
+export default ManagePermissions;
