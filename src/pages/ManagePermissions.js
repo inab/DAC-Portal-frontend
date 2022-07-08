@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
 import { getUsersPermissions, deleteUserPermissions } from '../Services/ManagePermissions';
-
-const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
+import useRequest from '../hooks/ManagePermissionsReducer';
 
 const PAGE_LABELS = {
   title: "Manage permissions",
@@ -22,16 +21,7 @@ const TABLE_LABELS = {
 
 const ManagePermissions = () => {
 
-  const [request, setRequest] = useState({
-    type: 'get',
-    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`,
-    token: localStorage.getItem("react-token"),
-    params: {
-      'format': null,
-      'account-id': null
-    }
-  });
-
+  const [request, dispatch] = useRequest()
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -46,23 +36,14 @@ const ManagePermissions = () => {
     })();
   }, [request]);
 
-  const handlePermissions = async (e, object, idx) => {
-    e.preventDefault();
-    setRequest({
-      type: 'delete',
-      url: `${REACT_APP_PERMISSIONS_URL}/permissions`,
-      token: localStorage.getItem("react-token"),
-      params: {
-        'values': `${object.ga4gh_visa_v1.value}`,
-        'account-id': `${object.sub}`
-      },
-      index: idx
-    });
+  const handlePermissions = (e, object, index) => {
+    e.preventDefault()
+    dispatch({ type: "delete", payload: { object: object, index: index } })
   }
 
   const TableRowData = (props) => {
     const { row } = props;
-    return Object.values(row).map((value) => <td> {value} </td> )
+    return Object.values(row).map((value) => <td> {value} </td>)
   }
 
   return (
@@ -82,24 +63,25 @@ const ManagePermissions = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {items.map((object, idx) => {
+                    {items.map((object, index) => {
                       const { sub, ga4gh_visa_v1 } = object;
                       return (
-                        <tr> 
-                          <TableRowData row={Object.assign({}, { 'sub': sub }, { ...ga4gh_visa_v1 })} />   
+                        <tr>
+                          <TableRowData row={Object.assign({}, { 'sub': sub }, { ...ga4gh_visa_v1 })} />
                           <td className="text-center">
-                            <Button variant="success" className="btn-block btn-fill" 
-                                    onClick={(e) => handlePermissions(e, object, idx)}> Revoke 
+                            <Button variant="success" className="btn-block btn-fill"
+                              onClick={(e) => handlePermissions(e, object, index)}> Revoke
                             </Button>
-                          </td>   
+                          </td>
                         </tr>
-                    )})}
+                      )
+                    })}
                   </tbody>
                 </Table>
               </Card.Body>
             </Card>
           </Col>
-        </Row> ) : <p> {PAGE_LABELS.empty} </p> }
+        </Row>) : <p> {PAGE_LABELS.empty} </p>}
     </Container>
   )
 }
