@@ -1,20 +1,25 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import { getAccessToken, getRefreshToken, getUserRoles, userAuth } from './Services/ManageAuth';
+import { ManageAuthService } from './Services/ManageAuth';
+
+const App = React.lazy( () => import ('./App'));
 
 (async () => {
-    const isAuthenticated = await userAuth();
+
+    const AuthService = ManageAuthService();
+
+    const isAuthenticated = await AuthService.userAuth();
 
     if(!isAuthenticated) window.location.reload();
 
-    getUserRoles() !== null ? getUserRoles().includes("dac-admin")  ? localStorage.setItem("role", 'dac-admin') : 
-                                                                      localStorage.setItem("role", 'dac-member') 
-                            : localStorage.setItem("role", 'user')
+    AuthService.getUserRoles() !== null ? AuthService.getUserRoles().includes("dac-admin") ? 
+                                          localStorage.setItem("role", 'dac-admin') : 
+                                          localStorage.setItem("role", 'dac-member') 
+                                        : localStorage.setItem("role", 'user')
     
-    localStorage.setItem("react-token", getAccessToken());
-    localStorage.setItem("react-refresh-token", await getRefreshToken());
+    localStorage.setItem("react-token", AuthService.getAccessToken());
+    localStorage.setItem("react-refresh-token", await AuthService.getRefreshToken());
     
-    ReactDOM.render(<App/>, document.getElementById('root'));
+    ReactDOM.render((<Suspense fallback={null}> <App/> </Suspense>), document.getElementById('root'));
 })();
 
