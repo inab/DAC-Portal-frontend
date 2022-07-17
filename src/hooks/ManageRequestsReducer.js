@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 
-const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
+const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE = {
     type: 'get',
@@ -17,16 +17,16 @@ const requestsReducer = (state, action) => {
     switch (action.type) {
         case "get":
             return INITIAL_STATE
-        case "post":
-            const { assertions, user, index } = action.payload;
+        case "put":
+            const { object, index } = action.payload;
             return {
                 ...state,
-                type: 'post', 
-                url: `${REACT_APP_PERMISSIONS_URL}/permissions`, 
-                data: assertions,
+                type: 'put', 
+                url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`, 
                 params: {
                     'format' : "PLAIN",
-                    'account-id' : `${user}`
+                    'account-id' : `${object.user}`,
+                    'acl': `${object.resource}`
                 }, 
                 index: index
             }
