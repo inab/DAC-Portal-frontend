@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
-import { getUsersRequests, postUserPermissions } from '../Services/ManageRequests';
+import { getPendingUserRequests, updateUsersRequests } from '../Services/ManageRequests';
 import useRequest from '../hooks/ManageRequestsReducer';
 
 const PAGE_LABELS = {
@@ -24,8 +24,8 @@ const RequestsStatus = () => {
   useEffect(() => {
     (async () => {
       try {
-        request.type === "get" ? setItems(await getUsersRequests(request)) :
-                                 setItems(await postUserPermissions(request, items))
+        request.type === "get" ? setItems(await getPendingUserRequests(request)) :
+                                 setItems(await updateUsersRequests(request, items))
       } catch (err) {
         console.log("error ", err.message)
         alert("An error ocurred: Users requests assigned to your DACs could not be loaded")
@@ -33,21 +33,13 @@ const RequestsStatus = () => {
     })();
   }, [request]);
 
-  const handlePermissions = async (e, object, index) => {
-    let assertions = [{
-      type: "ControlledAccessGrants",
-      asserted: 1564814387,
-      value: `${object.resource}`,
-      source: "https://test-url/source_dac",
-      by: "dac"
-    }]
-
-    dispatch({ type: "post", payload: { assertions: assertions, user: object.user, index: index } })
+  const acceptRequest = async (e, object, index) => {
+    dispatch({ type: "put", payload: { object: object, index: index } })
   }
 
   const TableRowData = (props) => {
-    const { row } = props;
-    return Object.values(row).map((value) => <td> {value} </td>)
+    let { row: { _id, status, ...rest} } = props;
+    return Object.values(rest).map((value) => <td> {value} </td>)
   }
 
   return (
@@ -72,7 +64,7 @@ const RequestsStatus = () => {
                           <tr>
                             <TableRowData row={object} />
                             <td className="text-center">
-                              <Button variant="success" className="btn-block btn-fill" onClick={(e) => handlePermissions(e, object, index)}>Grant</Button>
+                              <Button variant="success" className="btn-block btn-fill" onClick={(e) => acceptRequest(e, object, index)}>Grant</Button>
                               <Button variant="danger" className="btn-block btn-fill disabled" onClick={(e) => e.preventDefault()}>Deny</Button>
                             </td>
                           </tr>
