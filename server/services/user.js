@@ -37,7 +37,8 @@ const buildRequestObject = (file, resource, comments) => {
     return {
         fileId: file,
         resource: resource,
-        comment: comments
+        comment: comments,
+        status: "Pending"
     }
 }
 
