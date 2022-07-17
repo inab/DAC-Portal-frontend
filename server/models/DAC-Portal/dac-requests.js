@@ -22,11 +22,17 @@ const dacRequestsSchema = new mongoose.Schema({
             resource: {
                 type: String,
                 required: true
+            },
+            status: {
+                type: String,
+                required: true
             }
         }]
     }]
 },{ collection: 'dac-requests' });
 
-const DacRequests = mongoose.model('dac-requests', dacRequestsSchema);
+const db = mongoose.connection.useDb('dac-portal-api');
+
+const DacRequests = db.model('dac-requests', dacRequestsSchema);
 
 export { DacRequests }

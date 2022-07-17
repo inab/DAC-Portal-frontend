@@ -60,7 +60,9 @@ const dacDataSchema = new mongoose.Schema({
     }
 },{ collection: 'dacs' });
 
-const DacData = mongoose.model('dacs', dacDataSchema);
+const db = mongoose.connection.useDb('dac-portal-api');
+
+const DacData = db.model('dacs', dacDataSchema);
 
 function validatePolicies(queryObject){
     const schema = Joi.object().keys({

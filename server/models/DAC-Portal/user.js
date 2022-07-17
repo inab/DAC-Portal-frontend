@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
     }],
 }, { collection: 'user' });
 
-const User = mongoose.model('user', userSchema);
+const db = mongoose.connection.useDb('dac-portal-api');
+
+const User = db.model('user', userSchema);
 
 export { User }
 
