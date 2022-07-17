@@ -9,8 +9,6 @@ export default async (req, res, next) => {
 	// Get DAC scopes.
 	const dacScopes = getAuthZ(dacInfo);
 	// User that does not belong to any DAC.
-	console.log("dac scopes")
-	console.log(dacScopes)
 	if(!dacScopes) throw createError(403, "Forbidden");
 	// Check if user has the dac-admin role (delete).
 	const isDacAdmin = checkRole(dacScopes.roles, "dac-admin");

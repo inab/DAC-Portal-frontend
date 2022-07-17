@@ -1,4 +1,4 @@
-import { validatePolicies } from '../models/dac-data';
+import { validatePolicies } from '../models/DAC-Portal/dac-data';
 import createError from 'http-errors';
 
 export default async (req, res, next) => {  
