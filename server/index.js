@@ -9,6 +9,7 @@ import { keycloak, sessionData, serverConf } from './config';
 import 'express-async-errors';
 import errors from './middleware/errors';
 import initDb from './db';
+
 require('dotenv').config();
 require('./logs')();
 
