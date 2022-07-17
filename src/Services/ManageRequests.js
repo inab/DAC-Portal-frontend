@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { itemsDestructuring } from '../utils/utils';
+import { TransformPipelineToPending } from './ManageTransforms';
 
-const getUsersRequests = async (request) => {
-    const response = await axios({
+const getUserRequests = async (request) => {
+    return await axios({
         method: request.type,
         url: request.url,
         headers: {
@@ -10,11 +10,14 @@ const getUsersRequests = async (request) => {
         },
         params: request.params
     })
+}   
 
-    return itemsDestructuring([].concat(...response.data.map(item => item.requests)))
+const getPendingUserRequests = async (request) => {
+    const { data } = await getUserRequests(request)
+    return TransformPipelineToPending(data).getUsersAndRequests()
 }
 
-const postUserPermissions = async (request, items) => {
+const updateUsersRequests = async (request, items) => {
     await axios({
         method: request.type,
         url: request.url,
@@ -28,4 +31,4 @@ const postUserPermissions = async (request, items) => {
     return items.filter((el, idx) => idx !== request.index);
 }
 
-export { getUsersRequests, postUserPermissions }
+export { getPendingUserRequests, updateUsersRequests }

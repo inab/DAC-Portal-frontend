@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { getUniqueRequests, usersPermissions } from '../utils/utils';
+import { TransformPipelineToAccepted } from './ManageTransforms';
+import { usersPermissions } from '../utils/utils';
 
 const getUsersRequests = async (request) => {
     return await axios({
@@ -13,9 +14,9 @@ const getUsersRequests = async (request) => {
 }
 
 const getUsersPermissions = async (request) => {
-    const userRequests = await getUsersRequests(request)
-    const uniqueRequests = getUniqueRequests([].concat(...userRequests.data.map(item => item.requests)));
-    return await usersPermissions(uniqueRequests[0], uniqueRequests[1]);
+    const { data } = await getUsersRequests(request);
+    const acceptedRequests = TransformPipelineToAccepted(data);
+    return await usersPermissions(acceptedRequests.getAcceptedUsers(), acceptedRequests.getAcceptedResources());
 }
 
 const deleteUserPermissions = async (request, items) => {
