@@ -1,8 +1,8 @@
 // IMPORT MONGOOSE MODELS.
 import mongoose from 'mongoose';
-import { User } from '../models/user';
-import { DacRequests } from '../models/dac-requests';
-import { DacData } from '../models/dac-data';
+import { User } from '../models/DAC-Portal/user';
+import { DacRequests } from '../models/DAC-Portal/dac-requests';
+import { DacData } from '../models/DAC-Portal/dac-data';
 
 /* FUNCTIONS */
 
