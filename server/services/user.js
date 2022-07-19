@@ -125,10 +125,19 @@ const setUserRequestStatus = async (id, request, session) => {
 }
 
 // 1.G. GET REQUESTS STATUS BY USER ID
-const getRequestsStatus = async (id) => {
+/*const getRequestsStatus = async (id) => {
     const response = await User.find({ 'sub' : id })
                                .select({ 'status' : 1, '_id' : 0});
     return response
-}  
+}*/
+
+// 1.H. GET USER REQUESTS ASSIGNED BY USERID
+const getRequestsStatus = async (id) => {
+    const response = await DacRequests.find({ 'requests.user': id })
+                                      .select({ '_id': 0, 'requests.requests.$': 1 });
+
+    return response
+}
+
 
 export { getPolicies, getRequestsStatus, getRequestedFileData, buildRequestObject, requestTransaction }
