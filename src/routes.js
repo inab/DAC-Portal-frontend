@@ -4,7 +4,7 @@ import MyDACs from "./pages/MyDACs";
 import CreateDAC from "./pages/CreateDAC";
 import Policies from "./pages/Policies";
 import NeedHelp from "./pages/NeedHelp";
-import RequestsStatus from "./pages/RequestStatus";
+import RequestsRevision from "./pages/RequestsRevision";
 import ManageRequests from "./pages/ManageRequests";
 import ManagePermissions from "./pages/ManagePermissions";
 
@@ -104,10 +104,10 @@ const dashboardRoutes = [
     role: "user"
   },
   {
-    path: "/requeststatus",
-    name: "Request status",
+    path: "/revision",
+    name: "Revision process",
     icon: "nc-icon nc-zoom-split",
-    component: RequestsStatus,
+    component: RequestsRevision,
     layout: "/user",
     role: "user"
   },
