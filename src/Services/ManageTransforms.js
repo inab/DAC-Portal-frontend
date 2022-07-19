@@ -59,4 +59,4 @@ const Monad = (value) => {
     return { map, flatMap, current }
 }
 
-export { TransformPipelineToAccepted, TransformPipelineToPending }
+export { Monad, TransformPipelineToAccepted, TransformPipelineToPending }
