@@ -1,6 +1,31 @@
 import axios from 'axios';
 import { TransformPipelineToAccepted } from './ManageTransforms';
-import { usersPermissions } from '../utils/utils';
+
+const fetchPermissionsByUserId = async (userId) => {
+    const { REACT_APP_PERMISSIONS_URL } = process.env
+    return await axios({
+        method: 'get',
+        url: `${REACT_APP_PERMISSIONS_URL}/permissions`,
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("react-token")
+        },
+        params: {
+            'format': "PLAIN",
+            'account-id': userId
+        }
+    })
+}
+
+const usersPermissions = async (uniqueUsers, uniqueFiles) => {
+    let allUsersPermissions = (await Promise.all(uniqueUsers
+        .map(async (user) => (await fetchPermissionsByUserId(user)))))
+        .flatMap(({ data }) => data)
+    let acceptedUserPermissions = allUsersPermissions
+        .filter(item => uniqueFiles
+        .includes(item.ga4gh_visa_v1.value))
+
+    return acceptedUserPermissions
+}
 
 const getUsersRequests = async (request) => {
     return await axios({
@@ -15,8 +40,12 @@ const getUsersRequests = async (request) => {
 
 const getUsersPermissions = async (request) => {
     const { data } = await getUsersRequests(request);
+
     const acceptedRequests = TransformPipelineToAccepted(data);
-    return await usersPermissions(acceptedRequests.getAcceptedUsers(), acceptedRequests.getAcceptedResources());
+
+    const permissions = await usersPermissions(acceptedRequests.getAcceptedUsers(), acceptedRequests.getAcceptedResources())
+
+    return permissions
 }
 
 const deleteUserPermissions = async (request, items) => {
