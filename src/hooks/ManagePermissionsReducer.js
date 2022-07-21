@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 
 const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
 
@@ -14,8 +14,6 @@ const INITIAL_STATE = {
 
 const permissionsReducer = (state, action) => {
     switch (action.type) {
-        case "get":
-            return INITIAL_STATE
         case "delete":
             const { object, index } = action.payload;
             return {
@@ -31,8 +29,12 @@ const permissionsReducer = (state, action) => {
     }
 }
 
-const useRequest = () => {
-    return useReducer(permissionsReducer, INITIAL_STATE)
+const useRequest = (object, index) => {
+    const [request, dispatch] = useReducer(permissionsReducer, INITIAL_STATE)
+  
+    const callback = useCallback((object, index) => dispatch({ type: "delete", payload: { object: object, index: index } }))
+  
+    return [request, callback]
 }
 
 export default useRequest

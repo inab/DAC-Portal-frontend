@@ -20,8 +20,7 @@ const TABLE_LABELS = {
 }
 
 const ManagePermissions = () => {
-
-  const [request, dispatch] = useRequest()
+  const [request, setRequest] = useRequest();
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -35,11 +34,6 @@ const ManagePermissions = () => {
       }
     })();
   }, [request]);
-
-  const handlePermissions = (e, object, index) => {
-    e.preventDefault()
-    dispatch({ type: "delete", payload: { object: object, index: index } })
-  }
 
   const TableRowData = (props) => {
     const { row } = props;
@@ -70,7 +64,7 @@ const ManagePermissions = () => {
                           <TableRowData row={Object.assign({}, { 'sub': sub }, { ...ga4gh_visa_v1 })} />
                           <td className="text-center">
                             <Button variant="success" className="btn-block btn-fill"
-                              onClick={(e) => handlePermissions(e, object, index)}> Revoke
+                              onClick={(e) => setRequest(object, index)}> Revoke
                             </Button>
                           </td>
                         </tr>
