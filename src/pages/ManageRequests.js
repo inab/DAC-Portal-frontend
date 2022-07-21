@@ -18,7 +18,7 @@ const TABLE_LABELS = {
 }
 
 const RequestsStatus = () => {
-  const [request, dispatch] = useRequest();
+  const [request, setRequest] = useRequest();
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -32,10 +32,6 @@ const RequestsStatus = () => {
       }
     })();
   }, [request]);
-
-  const acceptRequest = async (e, object, index) => {
-    dispatch({ type: "put", payload: { object: object, index: index } })
-  }
 
   const TableRowData = (props) => {
     let { row: { _id, status, ...rest} } = props;
@@ -64,7 +60,7 @@ const RequestsStatus = () => {
                           <tr>
                             <TableRowData row={object} />
                             <td className="text-center">
-                              <Button variant="success" className="btn-block btn-fill" onClick={(e) => acceptRequest(e, object, index)}>Grant</Button>
+                              <Button variant="success" className="btn-block btn-fill" onClick={(e) => setRequest(object, index)}>Grant</Button>
                               <Button variant="danger" className="btn-block btn-fill disabled" onClick={(e) => e.preventDefault()}>Deny</Button>
                             </td>
                           </tr>

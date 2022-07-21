@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
@@ -15,8 +15,6 @@ const INITIAL_STATE = {
 
 const requestsReducer = (state, action) => {
     switch (action.type) {
-        case "get":
-            return INITIAL_STATE
         case "put":
             const { object, index } = action.payload;
             return {
@@ -33,8 +31,12 @@ const requestsReducer = (state, action) => {
     }
 }
 
-const useRequest = () => {
-    return useReducer(requestsReducer, INITIAL_STATE)
+const useRequest = (object, index) => {
+    const [request, dispatch] = useReducer(requestsReducer, INITIAL_STATE)
+  
+    const callback = useCallback((object, index) => dispatch({ type: "put", payload: { object: object, index: index } }))
+  
+    return [request, callback]
 }
 
 export default useRequest
