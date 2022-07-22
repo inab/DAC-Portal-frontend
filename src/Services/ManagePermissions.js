@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TransformPipelineToAccepted } from './ManageTransforms';
+import { getAcceptedRequests } from './ManageTransforms';
 
 const fetchPermissionsByUserId = async (userId) => {
     const { REACT_APP_PERMISSIONS_URL } = process.env
@@ -23,7 +23,6 @@ const usersPermissions = async (uniqueUsers, uniqueFiles) => {
     let acceptedUserPermissions = allUsersPermissions
         .filter(item => uniqueFiles
         .includes(item.ga4gh_visa_v1.value))
-
     return acceptedUserPermissions
 }
 
@@ -41,11 +40,11 @@ const getUsersRequests = async (request) => {
 const getUsersPermissions = async (request) => {
     const { data } = await getUsersRequests(request);
 
-    const acceptedRequests = TransformPipelineToAccepted(data);
+    const acceptedRequests = getAcceptedRequests(data)
 
-    const permissions = await usersPermissions(acceptedRequests.getAcceptedUsers(), acceptedRequests.getAcceptedResources())
-
-    return permissions
+    return await usersPermissions(
+        acceptedRequests.flatMap(({ user }) => user), 
+        acceptedRequests.flatMap(({ resource }) => resource))
 }
 
 const deleteUserPermissions = async (request, items) => {

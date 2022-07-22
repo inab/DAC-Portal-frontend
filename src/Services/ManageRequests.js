@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { TransformPipelineToPending } from './ManageTransforms';
+import { getPendingRequests } from './ManageTransforms';
 
 const getUserRequests = async (request) => {
     return await axios({
@@ -14,7 +14,7 @@ const getUserRequests = async (request) => {
 
 const getPendingUserRequests = async (request) => {
     const { data } = await getUserRequests(request)
-    return TransformPipelineToPending(data).getUsersAndRequests()
+    return getPendingRequests(data)
 }
 
 const updateUsersRequests = async (request, items) => {

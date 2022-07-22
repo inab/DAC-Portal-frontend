@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Monad } from './ManageTransforms';
+import { getRequests } from './ManageTransforms';
 
 const getUserRequests = async (request) => {
     const { data } = await axios({
@@ -10,9 +10,7 @@ const getUserRequests = async (request) => {
         }
     })
 
-    const levelDown = (data) => data.flatMap((item) => item.requests)  
-
-    return Monad(data).map(levelDown).flatMap(levelDown)
+    return getRequests(data)
 
 }
 
