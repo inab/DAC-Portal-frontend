@@ -5,9 +5,8 @@ import useRequest from '../Reducers/ManagePermissionsReducer';
 export default () => {
     const [request, handlers] = useRequest();
     const [items, setItems] = useState([]);
-    console.log("request")
-    console.log(request)
-    useEffect(() => {
+
+    useEffect(() => { 
         (async () => {
           try {
             request.type === "get" ? setItems(await getUsersPermissions(request)) :

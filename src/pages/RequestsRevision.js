@@ -1,13 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { getUserRequests } from '../Services/ManageRequestsRevision';
-import useRequest from '../hooks/ManageRequestsRevision';
-import {
-  Card,
-  Container,
-  Col,
-  Row,
-  Table
-} from "react-bootstrap";
+import React from 'react';
+import { Card, Container, Row, Col, Table } from "react-bootstrap";
+import useItems from '../Hooks/Effects/setRevisionItems';
 
 const PAGE_LABELS = {
   title: "My requests status",
@@ -22,27 +15,13 @@ const TABLE_LABELS = {
   status: "Status"
 }
 
-const TableRowData = (props) => {
-  let { row: { _id, ...rest} } = props;
-  return Object.values(rest).map((value) => <td> {value} </td>)
-}
-
 const RequestsStatus = () => {
+  const [items] = useItems();
 
-  const [request, dispatch] = useRequest();
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        setItems(await getUserRequests(request))
-      }
-      catch (err) {
-        console.log("error ", err.message)
-        alert("An error ocurred: Users requests could not be loaded")
-      }
-    })();
-  }, [request]);
+  const TableRowData = (props) => {
+    let { row: { _id, ...rest} } = props;
+    return Object.values(rest).map((value) => <td> {value} </td>)
+  }
 
   return (
     <Container fluid>
