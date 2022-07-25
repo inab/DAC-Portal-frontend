@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
-import { getUsersPermissions, deleteUserPermissions } from '../Services/ManagePermissions';
-import useRequest from '../hooks/ManagePermissionsReducer';
+import useItems from '../Hooks/Effects/setPermissionsItems';
+import useRequest from '../Hooks/Reducers/ManagePermissionsReducer';
 
 const PAGE_LABELS = {
   title: "Manage permissions",
@@ -21,19 +21,7 @@ const TABLE_LABELS = {
 
 const ManagePermissions = () => {
   const [request, setRequest] = useRequest();
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        request.type === "get" ? setItems(await getUsersPermissions(request)) :
-                                 setItems(await deleteUserPermissions(request, items))
-      } catch (err) {
-        console.log("error ", err.message)
-        alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
-      }
-    })();
-  }, [request]);
+  const items = useItems(request);
 
   const TableRowData = (props) => {
     const { row } = props;
