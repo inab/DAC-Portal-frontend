@@ -18,7 +18,7 @@ const TABLE_LABELS = {
 }
 
 const RequestsStatus = () => {
-  const [request, setRequest] = useRequest();
+  const [request, { putItem, deleteItem }] = useRequest();
   const items = useItems(request);
 
   const TableRowData = (props) => {
@@ -48,8 +48,8 @@ const RequestsStatus = () => {
                           <tr>
                             <TableRowData row={object} />
                             <td className="text-center">
-                              <Button variant="success" className="btn-block btn-fill" onClick={(e) => setRequest(object, index)}>Grant</Button>
-                              <Button variant="danger" className="btn-block btn-fill disabled" onClick={(e) => e.preventDefault()}>Deny</Button>
+                              <Button variant="success" className="btn-block btn-fill" onClick={(e) => putItem(object, index)}>Grant</Button>
+                              <Button variant="danger" className="btn-block btn-fill" onClick={(e) => deleteItem(object, index)}>Deny</Button>
                             </td>
                           </tr>
                         )
