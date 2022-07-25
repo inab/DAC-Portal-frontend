@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getUsersPermissions, deleteUserPermissions } from '../../Services/ManagePermissions';
+import useRequest from '../Reducers/ManagePermissionsReducer';
 
-export default (request) => {
+export default () => {
+    const [request, handlers] = useRequest();
     const [items, setItems] = useState([]);
-    
+    console.log("request")
+    console.log(request)
     useEffect(() => {
         (async () => {
           try {
@@ -16,5 +19,5 @@ export default (request) => {
         })();
       }, [request]);
 
-    return items
+    return [items, handlers]
 }
