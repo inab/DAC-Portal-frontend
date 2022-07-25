@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
-import { getPendingUserRequests, updateUsersRequests } from '../Services/ManageRequests';
-import useRequest from '../hooks/ManageRequestsReducer';
+import useItems from '../Hooks/Effects/setRequestsItems';
+import useRequest from '../Hooks/Reducers/ManageRequestsReducer';
 
 const PAGE_LABELS = {
   title: "Manage requests",
@@ -19,19 +19,7 @@ const TABLE_LABELS = {
 
 const RequestsStatus = () => {
   const [request, setRequest] = useRequest();
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        request.type === "get" ? setItems(await getPendingUserRequests(request)) :
-                                 setItems(await updateUsersRequests(request, items))
-      } catch (err) {
-        console.log("error ", err.message)
-        alert("An error ocurred: Users requests assigned to your DACs could not be loaded")
-      }
-    })();
-  }, [request]);
+  const items = useItems(request);
 
   const TableRowData = (props) => {
     let { row: { _id, status, ...rest} } = props;
