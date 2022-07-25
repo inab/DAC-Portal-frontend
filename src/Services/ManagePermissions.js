@@ -16,13 +16,15 @@ const fetchPermissionsByUserId = async (userId) => {
     })
 }
 
-const usersPermissions = async (uniqueUsers, uniqueFiles) => {
-    let allUsersPermissions = (await Promise.all(uniqueUsers
+const usersPermissions = async (users, files) => {
+    let allUsersPermissions = (await Promise.all([...new Set(users)]
         .map(async (user) => (await fetchPermissionsByUserId(user)))))
         .flatMap(({ data }) => data)
+
     let acceptedUserPermissions = allUsersPermissions
-        .filter(item => uniqueFiles
+        .filter(item => [...new Set(files)]
         .includes(item.ga4gh_visa_v1.value))
+
     return acceptedUserPermissions
 }
 
@@ -43,7 +45,7 @@ const getUsersPermissions = async (request) => {
     const acceptedRequests = getAcceptedRequests(data)
 
     return await usersPermissions(
-        acceptedRequests.flatMap(({ user }) => user), 
+        acceptedRequests.flatMap(({ user }) => user),
         acceptedRequests.flatMap(({ resource }) => resource))
 }
 
