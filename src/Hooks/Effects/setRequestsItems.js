@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getPendingUserRequests, updateUsersRequests } from '../../Services/ManageRequests';
+import useRequest from '../Reducers/ManageRequestsReducer';
 
-export default (request) => {
+export default () => {
+    const [request, handlers] = useRequest();
     const [items, setItems] = useState([]);
     
     useEffect(() => {
@@ -16,5 +18,5 @@ export default (request) => {
       })();
     }, [request]);
 
-    return items
+    return [items, handlers]
 }

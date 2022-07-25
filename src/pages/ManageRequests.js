@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
 import useItems from '../Hooks/Effects/setRequestsItems';
-import useRequest from '../Hooks/Reducers/ManageRequestsReducer';
 
 const PAGE_LABELS = {
   title: "Manage requests",
@@ -18,8 +17,7 @@ const TABLE_LABELS = {
 }
 
 const RequestsStatus = () => {
-  const [request, { putItem, deleteItem }] = useRequest();
-  const items = useItems(request);
+  const [items, { putItem, deleteItem }] = useItems();
 
   const TableRowData = (props) => {
     let { row: { _id, status, ...rest} } = props;
