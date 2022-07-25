@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
 import useItems from '../Hooks/Effects/setPermissionsItems';
-import useRequest from '../Hooks/Reducers/ManagePermissionsReducer';
 
 const PAGE_LABELS = {
   title: "Manage permissions",
@@ -20,8 +19,7 @@ const TABLE_LABELS = {
 }
 
 const ManagePermissions = () => {
-  const [request, setRequest] = useRequest();
-  const items = useItems(request);
+  const [items, { deleteItem }] = useItems();
 
   const TableRowData = (props) => {
     const { row } = props;
@@ -52,7 +50,7 @@ const ManagePermissions = () => {
                           <TableRowData row={Object.assign({}, { 'sub': sub }, { ...ga4gh_visa_v1 })} />
                           <td className="text-center">
                             <Button variant="success" className="btn-block btn-fill"
-                              onClick={(e) => setRequest(object, index)}> Revoke
+                              onClick={(e) => deleteItem(object, index)}> Revoke
                             </Button>
                           </td>
                         </tr>
