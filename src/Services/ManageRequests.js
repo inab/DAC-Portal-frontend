@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getPendingRequests } from './ManageTransforms';
 
 const getUserRequests = async (request) => {
     return await axios({
@@ -9,13 +8,13 @@ const getUserRequests = async (request) => {
             Authorization: "Bearer " + request.token
         },
         params: request.params
-    })
+    })  
 }   
 
 const getPendingUserRequests = async (request) => {
     const { data } = await getUserRequests(request)
-    return getPendingRequests(data)
-}
+    return data
+}  
 
 const updateUsersRequests = async (request, items) => {
     await axios({

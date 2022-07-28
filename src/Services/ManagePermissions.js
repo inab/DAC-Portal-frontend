@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getAcceptedRequests } from './ManageTransforms';
 
 const fetchPermissionsByUserId = async (userId) => {
     const { REACT_APP_PERMISSIONS_URL } = process.env
@@ -41,12 +40,9 @@ const getUsersRequests = async (request) => {
 
 const getUsersPermissions = async (request) => {
     const { data } = await getUsersRequests(request);
-
-    const acceptedRequests = getAcceptedRequests(data)
-
     return await usersPermissions(
-        acceptedRequests.flatMap(({ user }) => user),
-        acceptedRequests.flatMap(({ resource }) => resource))
+        data.flatMap(item => item.user),
+        data.flatMap(item => item.resource))
 }
 
 const deleteUserPermissions = async (request, items) => {

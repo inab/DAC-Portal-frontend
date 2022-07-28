@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getRequests } from './ManageTransforms';
 
 const getUserRequests = async (request) => {
     const { data } = await axios({
@@ -9,9 +8,9 @@ const getUserRequests = async (request) => {
             Authorization: "Bearer " + request.token
         }
     })
-
-    return getRequests(data)
-
+ 
+    return data
+ 
 }
 
-export { getUserRequests }
+export { getUserRequests } 
