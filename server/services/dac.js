@@ -7,7 +7,7 @@ import { UserPermissions } from '../models/Permissions-API/user';
 /* 1. MONGO DB: */
 
 // 1.A. ACCEPT REQUEST TRANSACTION: DAC-PORTAL-DB: STATUS -> ACCEPTED, PERMISSIONS-API: ADD DATA PERMISSIONS. 
-const acceptRequestTransaction = async (adminDacs, userId, resource) => {
+const acceptRequestTransaction = async (adminDacs, objectId, userId, resource) => {
     const session = await mongoose.startSession();
 
     let isCompleted = false;
@@ -15,7 +15,7 @@ const acceptRequestTransaction = async (adminDacs, userId, resource) => {
     try {
         session.startTransaction();
         const firstResponse = await Promise.all(adminDacs.map(async (item) => {
-            return await acceptRequestStatus(item.dacId, userId, resource, session)
+            return await acceptRequestStatus(item.dacId, objectId, session)
         }))
 
         if(firstResponse === null) throw new Error("Status not updated")
@@ -37,11 +37,11 @@ const acceptRequestTransaction = async (adminDacs, userId, resource) => {
 }
 
 // 1.A.1. ACCEPT REQUEST TRANSACTION: DAC-PORTAL-DB: STATUS -> ACCEPTED
-const acceptRequestStatus = async (id, userId, resource, session) => {
+const acceptRequestStatus = async (id, objectId, session) => {
     let response = await DacRequests.findOneAndUpdate(
-        { 'dacId': id, 'requests.user': userId, 'requests.requests.resource': resource },
-        {  $set : { "requests.$[i].requests.$[j].status" : "Accepted" }},
-        {  arrayFilters: [{ "i.user": userId }, { "j.resource": resource }], new: true, session }
+        { 'dacId': id, 'requests._id': objectId },
+        {  $set : { "requests.$.status" : "Accepted" }},
+        {  new: true, session }
     );
 
     return response
@@ -77,13 +77,29 @@ const createUserPermissions = async (id, resource, session) => {
     return response
 }
 
-// 1.B. GET USER REQUESTS ASSIGNED TO THIS DAC-MEMBER BY ID
-const getUserRequests = async (id) => {
-    const response = await DacRequests.find({ 'dacId': { $in: id } })
-                                      .select({ 'requests': 1, 'dacId': 1, '_id': 0 });
+// 1.B. GET REQUESTS BY DAC AND STATUS
 
-    return response
+// 1.B.1. QUERY BY DAC AND STATUS (AGGREGATION)
+const queryByDACandStatus = (id, status) => {
+    return [
+        { $match: { 'dacId': { $in: id } } }, 
+        { $unwind: "$requests" },
+        { $match: { "requests.status" : status } },
+        { $project: { 
+            _id: '$requests._id',
+            user: '$requests.user', 
+            fileId: '$requests.fileId', 
+            resource: '$requests.resource', 
+            comment: '$requests.comment',
+            status: '$requests.status' }
+        }
+    ]
 }
+
+// 1.B.2 GET PENDING USER REQUESTS BY DAC AND STATUS
+const getPendingUserRequests = async (id) => await DacRequests.aggregate(queryByDACandStatus(id, "Pending"))
+// 1.B.3 GET ACCEPTED USER REQUESTS BY DAC AND STATUS
+const getAcceptedUserRequests = async (id) => await DacRequests.aggregate(queryByDACandStatus(id, "Accepted"))
 
 // 1.C. GET USER REQUESTS ASSIGNED TO THIS DAC-MEMBER BY ID
 const getUserDacs = async (id) => {
@@ -158,7 +174,8 @@ const updateDacInfo = async (id, info) => {
 }
 
 export { 
-    getUserRequests, 
+    getAcceptedUserRequests,
+    getPendingUserRequests, 
     getDacData, 
     getPolicies, 
     getUserDacs, 
