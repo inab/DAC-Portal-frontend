@@ -1,34 +1,12 @@
 import mongoose from 'mongoose';
+import { userRequestsSchema } from './user-requests';
 
 const dacRequestsSchema = new mongoose.Schema({
     dacId: {
         type: String,
         required: true
     },
-    requests: [{
-        user: {
-            type: String,
-            required: true
-        },
-        requests: [{
-            fileId: {
-                type: String,
-                required: true
-            },
-            comment: {
-                type: String,
-                required: true
-            },
-            resource: {
-                type: String,
-                required: true
-            },
-            status: {
-                type: String,
-                required: true
-            }
-        }]
-    }]
+    requests: [userRequestsSchema]
 },{ collection: 'dac-requests' });
 
 const db = mongoose.connection.useDb('dac-portal-api');
