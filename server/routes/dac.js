@@ -7,7 +7,8 @@ export default ({ keycloak }) => {
 	let api = Router();
 
 	api.get('/data', [keycloak.protect(), request, resource], DacController.getData)
-	api.get('/requests', [keycloak.protect(), request, resource], DacController.getRequests)
+	api.get('/requests/accepted', [keycloak.protect(), request, resource], DacController.getAcceptedRequests)
+	api.get('/requests/pending', [keycloak.protect(), request, resource], DacController.getPendingRequests)
 	api.put('/requests', [keycloak.protect(), request, resource], DacController.updateRequests)
 	api.put('/policies', [keycloak.protect(), request, resource], DacController.updateDacPolicies)
 	api.put('/info', [keycloak.protect(), request, resource], DacController.updateInfo)
