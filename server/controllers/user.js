@@ -9,9 +9,14 @@ const postRequest = async function (req, res) {
 
     if (!fileData) throw createError(404, "Not found. No DAC controlling this resource.")
 
-    const requestObject = UserService.buildRequestObject(req.param('ds-id'), fileData.resource, req.param('comments'));
+    const requestObject = UserService.buildRequestObject(
+        userInfo.sub, 
+        req.param('ds-id'), 
+        fileData.resource, 
+        req.param('comments')
+    );
 
-    const response = await UserService.requestTransaction(userInfo.sub, fileData.dacId, requestObject)
+    const response = await UserService.setUserRequestData(fileData.dacId, requestObject)
 
     res.send(response)
 };

@@ -1,21 +1,33 @@
 import jwt_decode from "jwt-decode";
-import * as DacService from '../services/dacmember';
+import * as DacService from '../services/dac';
 
 const getData = async (req, res) => {
     const userInfo = jwt_decode(req.headers.authorization)
     const response = await DacService.getDacData(userInfo.sub);
     res.send(response)
 };
-const getRequests = async (req, res) => {
+const getPendingRequests = async (req, res) => {
     const userInfo = jwt_decode(req.headers.authorization)
     const dacs = (await DacService.getUserDacs(userInfo.sub)).map(({ dacId }) => dacId);
-    const response = (await DacService.getUserRequests(dacs)).flatMap(({ requests }) => requests);
+    const response = (await DacService.getPendingUserRequests(dacs));
+    res.send(response)
+}
+const getAcceptedRequests = async (req, res) => {
+    const userInfo = jwt_decode(req.headers.authorization)
+    const dacs = (await DacService.getUserDacs(userInfo.sub)).map(({ dacId }) => dacId);
+    const response = (await DacService.getAcceptedUserRequests(dacs));
     res.send(response)
 }
 const updateRequests = async (req, res) => {
     const userInfo = jwt_decode(req.headers.authorization);
     const userDacs = await DacService.getUserDacs(userInfo.sub);
-    const transaction = await DacService.acceptRequestTransaction(userDacs, req.param("account-id"), req.param("acl"))
+    
+    const transaction = await DacService.acceptRequestTransaction(
+        userDacs, 
+        req.param("object-id"),
+        req.param("account-id"), 
+        req.param("acl")
+    )
 
     transaction.response ? res.send({ response: transaction.response })
         : res.send({ response: "Request could not be processed" })
@@ -32,4 +44,4 @@ const updateInfo = async (req, res) => {
     res.send(response)
 }
 
-export { getData, getRequests, updateRequests, updateDacPolicies, updateInfo }
+export { getData, getPendingRequests, getAcceptedRequests, updateRequests, updateDacPolicies, updateInfo }
