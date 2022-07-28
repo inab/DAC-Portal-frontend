@@ -4,7 +4,7 @@ const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE = {
     type: 'get',
-    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`,
+    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/pending`,
     token: localStorage.getItem("react-token"),
     params: {
         'format': null,
@@ -24,10 +24,11 @@ const requestsReducer = (state, action) => {
                 params: {
                     'format': "PLAIN",
                     'account-id': `${object.user}`,
-                    'acl': `${object.resource}`
+                    'acl': `${object.resource}`,
+                    'object-id': `${object._id}`
                 },
                 index: index
-            }
+            }  
         case "delete":
             // IMPLEMENTATION NEEDED
     }

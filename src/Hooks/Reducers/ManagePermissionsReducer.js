@@ -4,7 +4,7 @@ const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
 
 const INITIAL_STATE = {
     type: 'get',
-    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`,
+    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/accepted`,
     token: localStorage.getItem("react-token"),
     params: {
       'format': null,
@@ -28,7 +28,7 @@ const permissionsReducer = (state, action) => {
             }
     }
 }
-
+ 
 const useRequest = (object, index) => {
     const [request, dispatch] = useReducer(permissionsReducer, INITIAL_STATE)
   
