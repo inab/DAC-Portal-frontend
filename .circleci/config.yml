@@ -29,6 +29,9 @@ jobs:
           environment:
             DOCKERIZE_VERSION: v0.3.0
       - run:
+          name: increase file watchers limit
+          command: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+      - run:
           name: Pull test data and plugins submodules
           command: |
             git submodule init
