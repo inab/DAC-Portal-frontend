@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import CustomNavbar from "components/Navbars/CustomNavbar";
-import Footer from "components/Footer/Footer";
-import Sidebar from "components/Sidebar/Sidebar";
+import CustomNavbar from "../components/Navbars/CustomNavbar";
+import Footer from "../components/Footer/Footer";
+import Sidebar from "../components/Sidebar/Sidebar";
 
-import routes from "routes.js";
+import routes from "../routes";
 
 function Layout() {
   const mainPanel = React.useRef(null);

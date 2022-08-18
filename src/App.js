@@ -1,11 +1,11 @@
 import React from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import "./assets/bootstrap/bootstrap.scss";
 import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import Layout from "layouts/Layout.js";
+import Layout from "./layouts/Layout";
 
 const App = () => {
   return (

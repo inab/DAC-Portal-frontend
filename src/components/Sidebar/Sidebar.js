@@ -1,9 +1,6 @@
-import React from "react";
 import { useLocation, NavLink } from "react-router-dom";
-
 import { Nav } from "react-bootstrap";
-
-import logo from "assets/img/ipc-logo.png";
+import logo from "../../assets/img/ipc-logo.png";
 
 function Sidebar({ color, image, routes }) {
   const location = useLocation();
