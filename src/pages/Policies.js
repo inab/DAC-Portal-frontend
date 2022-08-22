@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
+import useItems from '../Hooks/Effects/setPoliciesItems';
 import {
   Button,
   Card,
@@ -7,63 +7,15 @@ import {
   Container,
   Row,
   Col,
-} from "react-bootstrap";
-
-const { REACT_APP_DAC_PORTAL_API_URL } = process.env
+} from "react-bootstrap"; 
 
 function Policies() {
-  const [request, setRequest] = useState({ type: 'get',
-                                           url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/data`, 
-                                           token: localStorage.getItem("react-token") });
-                
+  const [items, { putItem }] = useItems();     
   const [response, setResponse] = useState([]);
-
-  useEffect(() => {
-    const apiRequest = async () => {
-      const query = await axios({ 
-        method: request.type, 
-        url: request.url, 
-        headers: {
-          Authorization: "Bearer " + request.token
-        },
-        params: request.params,
-      }).then(res => {
-        res = res.data;
-
-        let destructured = [];
-
-        res.map(dacData => {
-            let { dacId } = dacData;
-            dacData.files.map(fileObj => {
-                let { fileId, policy, acl } = fileObj;
-                destructured.push({
-                    dacId, fileId, policy, acl
-                })
-            })
-        })
-        return destructured
-      }).catch(error => {
-      });
-      setResponse(query);
-    };
-    apiRequest();
-  }, [request]);
-
-  const updatePolicies = async (e, d, idx) => {
-    e.preventDefault();
-    setRequest({ type: 'put', 
-                 url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`, 
-                 token: localStorage.getItem("react-token"),
-                 params: {
-                    'dac-id' : `${d.dacId}`,
-                    'ds-id' : `${d.fileId}`,
-                    'acl' : `${d.acl}`,
-                    'policy': `${d.policy}` } });
-  }
 
   const changePolicy = (e) => {
     e.preventDefault();
-    let updatedData = [...response];
+    let updatedData = [...items];
     let idx = e.target.getAttribute('data-id');
     let value = e.target.value;
     updatedData[idx]['policy'] = value;
@@ -89,7 +41,7 @@ function Policies() {
                     </tr>
                   </thead>
                   <tbody>
-                    {response.map((d, idx) => (
+                    {items.map((d, idx) => (
                       <tr>
                         <td> {d.dacId} </td>
                         <td> {d.fileId} </td>
@@ -97,8 +49,8 @@ function Policies() {
                           <input data-id={idx} type="text" value={d.policy} onChange={changePolicy}/>
                         </td>
                         <td className="text-center">
-                          <Button variant="success" className="btn-block btn-fill" onClick={(e) => updatePolicies(e,d, idx)}>Update</Button>
-                        </td>       
+                          <Button variant="success" className="btn-block btn-fill" onClick={()=>putItem(d)}>Update</Button>
+                        </td>        
                       </tr>
                     ))}
                   </tbody>
