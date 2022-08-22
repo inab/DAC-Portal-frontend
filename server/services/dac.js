@@ -115,7 +115,27 @@ const getDacData = async (id) => {
     return response
 }
 
-// 1.E. UPDATE POLICIES: DAC Data.
+// 1.E. GET POLICIES 
+
+// 1.E.1 GET ALL POLICIES BY DACS ARRAY (AGGREGATION)
+const queryAllDacPolicies = (dacs) => {
+    return [
+        { $match: { 'dacId': { $in: dacs } } }, 
+        { $unwind: "$files" },
+        { $project: { 
+            dacId: '$dacId',
+            _id: '$files._id',
+            fileId: '$files.fileId', 
+            policy: '$files.policy', 
+            acl: '$files.acl' }
+        }
+    ]
+}
+
+// 1.E.2 GET POLICIES BY DACS (ARRAY)
+const getPolicies = async (dacs) => await DacData.aggregate(queryAllDacPolicies(dacs))
+
+// 1.F. UPDATE POLICIES:
 const updatePolicies = async (id, dac, file, policy) => {
 
     let resourceData = await DacData.find({ 'dacId': dac, 'files.fileId': file })
@@ -130,18 +150,13 @@ const updatePolicies = async (id, dac, file, policy) => {
     let response = await DacData.findOneAndUpdate({ 'dacId': dac, 'files.fileId': file },
                                                   { $set: { 'files.$': obj } });
 
-    response = await getDacData(id);
+    let dacs = (await getUserDacs(id)).map(({ dacId }) => dacId);
+
+    response = await getPolicies(dacs);
 
     return response
 }
 
-// 1.F. GET POLICIES BY DAC-ID AND FILE-ID
-const getPolicies = async (dac, file) => {
-    const response = await DacData.find({ 'dacId': dac, 'files.fileId': file })
-                                  .select({ '_id': 0, 'members': 0, 'files.$': 1 });
-
-    return response
-}
 
 // 1.G. UPDATE DAC INFO: 
 const updateDacInfo = async (id, info) => {
