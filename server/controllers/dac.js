@@ -6,6 +6,12 @@ const getData = async (req, res) => {
     const response = await DacService.getDacData(userInfo.sub);
     res.send(response)
 };
+const getDacPolicies = async (req, res) => {
+    const userInfo = jwt_decode(req.headers.authorization)
+    const dacs = (await DacService.getUserDacs(userInfo.sub)).map(({ dacId }) => dacId);
+    const response = await DacService.getPolicies(dacs);
+    res.send(response)
+};
 const getPendingRequests = async (req, res) => {
     const userInfo = jwt_decode(req.headers.authorization)
     const dacs = (await DacService.getUserDacs(userInfo.sub)).map(({ dacId }) => dacId);
@@ -32,9 +38,14 @@ const updateRequests = async (req, res) => {
     transaction.response ? res.send({ response: transaction.response })
         : res.send({ response: "Request could not be processed" })
 }
+const revokeRequests = async (req, res) => {
+    const userInfo = jwt_decode(req.headers.authorization);
+    const userDacs = await DacService.getUserDacs(userInfo.sub);
+    const response = (await DacService.revokeUserRequests(userDacs, req.param("object-id")));
+    res.send(response)
+}
 const updateDacPolicies = async (req, res) => {
     const userInfo = jwt_decode(req.headers.authorization)
-    // const acl = req.param('acl');
     const response = await DacService.updatePolicies(userInfo.sub, req.param('dac-id'), req.param('ds-id'), req.param('policy'));
     res.send(response)
 }
@@ -44,4 +55,4 @@ const updateInfo = async (req, res) => {
     res.send(response)
 }
 
-export { getData, getPendingRequests, getAcceptedRequests, updateRequests, updateDacPolicies, updateInfo }
+export { getData, getPendingRequests, getAcceptedRequests, updateRequests, revokeRequests, getDacPolicies, updateDacPolicies, updateInfo }
