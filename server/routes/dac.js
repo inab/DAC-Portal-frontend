@@ -10,6 +10,8 @@ export default ({ keycloak }) => {
 	api.get('/requests/accepted', [keycloak.protect(), request, resource], DacController.getAcceptedRequests)
 	api.get('/requests/pending', [keycloak.protect(), request, resource], DacController.getPendingRequests)
 	api.put('/requests', [keycloak.protect(), request, resource], DacController.updateRequests)
+	api.delete('/requests', [keycloak.protect(), request, resource], DacController.revokeRequests)
+	api.get('/policies', [keycloak.protect(), request, resource], DacController.getDacPolicies)
 	api.put('/policies', [keycloak.protect(), request, resource], DacController.updateDacPolicies)
 	api.put('/info', [keycloak.protect(), request, resource], DacController.updateInfo)
 
