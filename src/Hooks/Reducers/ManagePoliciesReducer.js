@@ -6,9 +6,7 @@ const INITIAL_STATE_REQUESTS = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`,
     token: localStorage.getItem("react-token"),
-    params: null,
-    index: null,
-    value: null
+    params: null
 }
 
 const INITIAL_STATE_INPUT = {
@@ -53,9 +51,6 @@ const policiesInputReducer = (state, action) => {
 const useRequest = (object) => {
     const [request, dispatch] = useReducer(policiesRequestReducer, INITIAL_STATE_REQUESTS)
 
-    console.log("state: request")
-    console.log(request)
-    
     const handlers = useCallback(({
         putItem: (object) => {
             dispatch({ type: "put", payload: { object: object } })
@@ -66,9 +61,6 @@ const useRequest = (object) => {
 
 const useInput = (evt) => {
     const [input, dispatch] = useReducer(policiesInputReducer, INITIAL_STATE_INPUT)
-
-    console.log("state: input")
-    console.log(input)
 
     const handlers = useCallback(({
         changeItem: (evt) => {
