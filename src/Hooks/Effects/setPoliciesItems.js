@@ -1,11 +1,23 @@
 import { useEffect, useState } from 'react';
 import { getPolicies, updatePolicies } from '../../Services/ManagePolicies';
-import useRequest from '../Reducers/ManagePoliciesReducer';
+import { useRequest, useInput } from '../Reducers/ManagePoliciesReducer';
 
 export default () => {
-    const [request, handlers] = useRequest();
+    const [request, requestHandlers] = useRequest();
+    const [input, inputHandlers] = useInput();
     const [items, setItems] = useState([]);
-    
+
+    useEffect(() => {
+      (async () => {
+        let { index, value } = input;
+        if(index) {
+          let updatedItems = [...items];
+          updatedItems[index]['policy'] = value;
+          setItems(updatedItems);
+        }
+      })();
+    }, [input]);
+
     useEffect(() => {
       (async () => {
         try {
@@ -18,5 +30,5 @@ export default () => {
       })();
     }, [request]);
 
-    return [items, handlers]
+    return [items, {...requestHandlers, ...inputHandlers}]
 }
