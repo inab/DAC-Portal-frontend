@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useItems from '../Hooks/Effects/setPoliciesItems';
 import {
   Button,
@@ -10,24 +9,14 @@ import {
 } from "react-bootstrap"; 
 
 function Policies() {
-  const [items, { putItem }] = useItems();     
-  const [response, setResponse] = useState([]);
-
-  const changePolicy = (e) => {
-    e.preventDefault();
-    let updatedData = [...items];
-    let idx = e.target.getAttribute('data-id');
-    let value = e.target.value;
-    updatedData[idx]['policy'] = value;
-    setResponse(updatedData)
-  }
+  const [items, { putItem, changeItem }] = useItems();     
 
   return (
     <>
       <Container fluid>
         <Row>
           <Col md="12">
-            <h4> Create policies</h4>
+            <h4> Create policies </h4>
             <p> Here you can add new policies for the different datasets of your DACs. </p>
             <br/>
             <Card>
@@ -46,10 +35,10 @@ function Policies() {
                         <td> {d.dacId} </td>
                         <td> {d.fileId} </td>
                         <td className="text-center">
-                          <input data-id={idx} type="text" value={d.policy} onChange={changePolicy}/>
+                          <input data-id={idx} type="text" value={d.policy} onChange={(evt) => changeItem(evt)}/>
                         </td>
                         <td className="text-center">
-                          <Button variant="success" className="btn-block btn-fill" onClick={()=>putItem(d)}>Update</Button>
+                          <Button variant="success" className="btn-block btn-fill" onClick={()=> putItem(d)}>Update</Button>
                         </td>        
                       </tr>
                     ))}
