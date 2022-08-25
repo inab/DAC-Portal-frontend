@@ -3,8 +3,8 @@ import { Table } from "react-bootstrap";
 import { Request, Policy, ITableProps} from '../../Models/Table';
 import { DisplayRow, DisplayRowWithButtons }  from './TableRow';
 
-const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, deleteItem, savePolicy, changePolicy }) => {
-    let withButtons = ( putItem || deleteItem || savePolicy || changePolicy ) ? true : false
+const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, deleteItem, saveItem, changeItem }) => {
+    let withButtons = ( putItem || deleteItem || saveItem || changeItem ) ? true : false
 
     return (
         <>
@@ -23,9 +23,9 @@ const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, d
                                 exclude={exclude}
                                 putItem={putItem ? () => putItem(row, index) : null }
                                 deleteItem={deleteItem ? () => deleteItem(row, index) : null } 
-                                savePolicy={savePolicy ? () => savePolicy(row) : null }
-                                changePolicy={changePolicy ? 
-                                    (e: React.ChangeEvent<HTMLInputElement>) => changePolicy(e) : null } />            
+                                saveItem={saveItem ? () => saveItem(row) : null }
+                                changeItem={changeItem ? 
+                                    (e: React.ChangeEvent<HTMLInputElement>) => changeItem(e) : null } />            
                         </tr> ) : <tr> <DisplayRow row={row} index={index} exclude={exclude} /> </tr>  
                     )}
                 </tbody>
