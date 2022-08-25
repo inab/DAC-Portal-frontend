@@ -7,32 +7,49 @@ export declare type Request = {
     status: string
 };
 
+export declare type Policy = {
+    _id: string,
+    dacId: string,
+    fileId: string,
+    acl: string,
+    policy: string
+};
+
 export declare type Labels = {
-    user?: string,
+    user: string,
     fileId: string,
     resource: string,
     comment: string,
-    access?: string,
-    status?: string
+    access: string,
+    status: string,
+    dacId: string,
+    policy: string
 };
 
 export interface ITableProps {
-    allRows: Array<Request>,
-    labels: Labels,
+    allRows: Array<Request | Policy>,
+    labels: Partial<Labels>,
     exclude?: Array<string>,
-    putItem?: ReactElement,
-    deleteItem?: ReactElement
+    putItem?: ReactElement | Null,
+    deleteItem?: ReactElement | Null,
+    savePolicy?: ReactElement | Null,
+    changePolicy?: ReactElement | Null
 };
   
 export interface ITableRowProps {
-    row: Request,
+    row: Request | Policy,
+    index: number,
+    changePolicy?: React.ChangeEvent<HTMLInputElement> | Null,
     exclude?: Array<string>,
     children?: ReactElement
 };
   
 export interface ITableRowPropsWithButtons {
-    row: Request,
+    row: Request | Policy,
+    index: number,
     exclude?: Array<string>,
-    putItem?: React.MouseEventHandler<HTMLButtonElement>,
-    deleteItem?: React.MouseEventHandler<HTMLButtonElement>
+    putItem?: React.MouseEventHandler<HTMLButtonElement> | Null,
+    deleteItem?: React.MouseEventHandler<HTMLButtonElement> | Null,
+    savePolicy?: React.MouseEventHandler<HTMLButtonElement> | Null,
+    changePolicy?: React.ChangeEvent<HTMLInputElement> | Null
 };
