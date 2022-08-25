@@ -15,7 +15,7 @@ const INITIAL_STATE = {
 
 const requestsReducer = (state, action) => {
     switch (action.type) {
-        case "put":
+        case "accept":
             const { object, index } = action.payload;
             return {
                 ...state,
@@ -32,16 +32,16 @@ const requestsReducer = (state, action) => {
         case "delete":
             // IMPLEMENTATION NEEDED
     }
-}
+} 
 
 const useRequest = (object, index) => {
     const [request, dispatch] = useReducer(requestsReducer, INITIAL_STATE)
 
     const handlers = useCallback(({
-        putItem: (object, index) => {
-            dispatch({ type: "put", payload: { object: object, index: index } })
+        acceptRequest: (object, index) => {
+            dispatch({ type: "accept", payload: { object: object, index: index } })
         },
-        deleteItem: (object, index) => {
+        deleteRequest: (object, index) => {
             dispatch({ type: "delete", payload: { object: object, index: index } })
         }
     }))

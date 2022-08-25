@@ -17,7 +17,7 @@ const TABLE_LABELS = {
 }
 
 const RequestsStatus = () => {
-  const [items, { putItem, deleteItem }] = useItems();
+  const [items, { acceptRequest, deleteRequest }] = useItems();
 
   return (
     <>
@@ -33,8 +33,8 @@ const RequestsStatus = () => {
                     allRows={items}
                     labels={TABLE_LABELS}
                     exclude={["_id", "status"]}
-                    putItem={putItem}
-                    deleteItem={deleteItem} />
+                    putItem={acceptRequest}
+                    deleteItem={deleteRequest} />
                 </Card.Body>
               </Card>
             </Col>

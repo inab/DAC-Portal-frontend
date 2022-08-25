@@ -18,7 +18,7 @@ const policiesRequestReducer = (state, action) => {
     switch (action.type) {
         case "get":
             return INITIAL_STATE
-        case "put": {
+        case "save": {
             const { object } = action.payload;
             return {
                 ...state,
@@ -52,8 +52,8 @@ const useRequest = (object) => {
     const [request, dispatch] = useReducer(policiesRequestReducer, INITIAL_STATE_REQUESTS)
 
     const handlers = useCallback(({
-        putItem: (object) => {
-            dispatch({ type: "put", payload: { object: object } })
+        savePolicy: (object) => {
+            dispatch({ type: "save", payload: { object: object } })
         }
     }))
     return [request, handlers]
@@ -63,7 +63,7 @@ const useInput = (evt) => {
     const [input, dispatch] = useReducer(policiesInputReducer, INITIAL_STATE_INPUT)
 
     const handlers = useCallback(({
-        changeItem: (evt) => {
+        changePolicy: (evt) => {
             dispatch({ type: "change", payload: { evt: evt } })
         }
     }))

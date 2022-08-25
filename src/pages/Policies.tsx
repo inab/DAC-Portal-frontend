@@ -20,7 +20,7 @@ const TABLE_LABELS = {
 }
 
 function Policies() {
-  const [items, { putItem, changeItem }] = useItems();
+  const [items, { savePolicy, changePolicy }] = useItems();
 
   return (
     <>
@@ -37,8 +37,8 @@ function Policies() {
                     allRows={items}
                     labels={TABLE_LABELS}
                     exclude={["_id", "acl"]}
-                    changePolicy={changeItem}
-                    savePolicy={putItem} />
+                    changeItem={changePolicy}
+                    saveItem={savePolicy} />
                 </Card.Body>
               </Card>
             </Col>
