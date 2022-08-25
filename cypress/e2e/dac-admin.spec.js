@@ -28,16 +28,19 @@ describe("Stories: DAC-ADMIN ACTIONS - Revoke user permissions and setup data po
         cy.wait(500);
         cy.visit("/dac-admin/mypolicies");
         cy.wait(500);
-        // B. CHECK THERE ARE INCOMING REQUESTS AND POST PERMISSIONS.
+        // B. CLICK THE EDIT BUTTON FOR EDITING A POLICY.
+        cy.get(".btn-block.btn-fill.btn.btn-primary").contains("Edit").click();
+        // C. REMOVE TEXT FROM THE FIRST ITEM AND SETUP A BRAND NEW POLICY.
         cy.get('[data-id="0"]').clear().type("New policy");
-        // C. SETUP THE NEW POLICY.
-        cy.get(".btn-block.btn-fill.btn.btn-success").contains("Update").click();
-        // C. GO TO THE HOMEPAGE AND THEN GO BACK TO THE MYPOLICIES SECTION.
+        // D. SAVE THE NEW POLICY.
+        cy.get(".btn-block.btn-fill.btn.btn-success").contains("Confirm").click();
+        // E. GO TO THE HOMEPAGE AND THEN GO BACK TO THE MYPOLICIES SECTION.
         cy.visit("/");
         cy.wait(500);
         cy.visit("/dac-admin/mypolicies");
         cy.wait(500);
-        // D. CHECK IF THE NEW POLICY IS RENDERED FROM THE DAC-API DATA.
+        // F. CHECK IF THE NEW POLICY IS RENDERED FROM THE DAC REST-API. CLICK THE EDIT BUTTON AND CHECK THE VALUE.
+        cy.get(".btn-block.btn-fill.btn.btn-primary").contains("Edit").click();
         cy.get('[data-id="0"]').should('have.value', 'New policy')
         cy.wait(500);
     })
