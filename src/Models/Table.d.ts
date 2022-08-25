@@ -32,14 +32,15 @@ export interface ITableProps {
     exclude?: Array<string>,
     putItem?: ReactElement | Null,
     deleteItem?: ReactElement | Null,
-    savePolicy?: ReactElement | Null,
-    changePolicy?: ReactElement | Null
+    saveItem?: ReactElement | Null,
+    changeItem?: ReactElement | Null
 };
   
 export interface ITableRowProps {
     row: Request | Policy,
     index: number,
-    changePolicy?: React.ChangeEvent<HTMLInputElement> | Null,
+    change?: React.ChangeEvent<HTMLInputElement> | Null,
+    edit?: ITableCell,
     exclude?: Array<string>,
     children?: ReactElement
 };
@@ -50,6 +51,12 @@ export interface ITableRowPropsWithButtons {
     exclude?: Array<string>,
     putItem?: React.MouseEventHandler<HTMLButtonElement> | Null,
     deleteItem?: React.MouseEventHandler<HTMLButtonElement> | Null,
-    savePolicy?: React.MouseEventHandler<HTMLButtonElement> | Null,
-    changePolicy?: React.ChangeEvent<HTMLInputElement> | Null
+    saveItem?: React.MouseEventHandler<HTMLButtonElement> | Null,
+    changeItem?: React.ChangeEvent<HTMLInputElement> | Null
+};
+
+export interface ITableCell {
+    editable: boolean,
+    column: string,
+    change: React.ChangeEvent<HTMLInputElement> | Null
 };
