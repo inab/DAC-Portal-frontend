@@ -1,10 +1,10 @@
 import React from 'react';
 import { Table } from "react-bootstrap";
-import { Request, ITableProps} from '../../Models/Table';
+import { Request, Policy, ITableProps} from '../../Models/Table';
 import { DisplayRow, DisplayRowWithButtons }  from './TableRow';
 
-const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, deleteItem }) => {
-    let withButtons = ( putItem || deleteItem ) ? true : false
+const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, deleteItem, savePolicy, changePolicy }) => {
+    let withButtons = ( putItem || deleteItem || savePolicy || changePolicy ) ? true : false
 
     return (
         <>
@@ -15,14 +15,18 @@ const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, d
                     </tr>
                 </thead>
                 <tbody>
-                    {allRows.map((row: Request, index: number) => withButtons ? (
+                    {allRows.map((row: Request | Policy, index: number) => withButtons ? (
                         <tr>
                             <DisplayRowWithButtons
                                 row={row}
+                                index={index}
                                 exclude={exclude}
-                                putItem={(e) => putItem(row, index)}
-                                deleteItem={(e) => deleteItem(row, index)} />
-                        </tr> ) : <tr> <DisplayRow row={row} exclude={exclude} /> </tr>  
+                                putItem={putItem ? () => putItem(row, index) : null }
+                                deleteItem={deleteItem ? () => deleteItem(row, index) : null } 
+                                savePolicy={savePolicy ? () => savePolicy(row) : null }
+                                changePolicy={changePolicy ? 
+                                    (e: React.ChangeEvent<HTMLInputElement>) => changePolicy(e) : null } />            
+                        </tr> ) : <tr> <DisplayRow row={row} index={index} exclude={exclude} /> </tr>  
                     )}
                 </tbody>
             </Table>
