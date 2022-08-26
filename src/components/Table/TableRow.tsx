@@ -19,7 +19,7 @@ const DisplayRow: React.FC<ITableRowProps> = ({ row, index, exclude, edit, child
 
 const DisplayRowWithButtons: React.FC<ITableRowPropsWithButtons> = ({ row, index, exclude, putItem, deleteItem, saveItem, changeItem }) => {
 
-    const [editable, setEditable] = useState<ITableCell>({ editable: false, column: "", change: null });
+    const [editable, setEditable] = useState<ITableCell>({ editable: false, column: "", change: undefined });
 
     const editTableCell = () => {
         const editObject = {

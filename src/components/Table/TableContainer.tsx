@@ -16,16 +16,15 @@ const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, d
                 </thead>
                 <tbody>
                     {allRows.map((row: Request | Policy, index: number) => withButtons ? (
-                        <tr>
+                        <tr> 
                             <DisplayRowWithButtons
                                 row={row}
                                 index={index}
                                 exclude={exclude}
-                                putItem={putItem ? () => putItem(row, index) : null }
-                                deleteItem={deleteItem ? () => deleteItem(row, index) : null } 
-                                saveItem={saveItem ? () => saveItem(row) : null }
-                                changeItem={changeItem ? 
-                                    (e: React.ChangeEvent<HTMLInputElement>) => changeItem(e) : null } />            
+                                putItem={putItem ? () => putItem(row, index) : undefined}
+                                deleteItem={deleteItem ? () => deleteItem(row, index) : undefined} 
+                                saveItem={saveItem ? () => saveItem(row) : undefined}
+                                changeItem={changeItem ? (e) => changeItem(e) : undefined } />            
                         </tr> ) : <tr> <DisplayRow row={row} index={index} exclude={exclude} /> </tr>  
                     )}
                 </tbody>
