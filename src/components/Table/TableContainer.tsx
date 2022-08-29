@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table } from "react-bootstrap";
-import { Request, Policy, ITableProps} from '../../Models/Table';
+import { Request, Policy, Permission, ITableProps} from '../../Models/Table';
 import { DisplayRow, DisplayRowWithButtons }  from './TableRow';
 
 const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, deleteItem, saveItem, changeItem }) => {
@@ -15,7 +15,7 @@ const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, d
                     </tr>
                 </thead>
                 <tbody>
-                    {allRows.map((row: Request | Policy, index: number) => withButtons ? (
+                    {allRows.map((row: Request | Policy | Permission, index: number) => withButtons ? (
                         <tr> 
                             <DisplayRowWithButtons
                                 row={row}

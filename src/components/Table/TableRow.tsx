@@ -32,15 +32,20 @@ const DisplayRowWithButtons: React.FC<ITableRowPropsWithButtons> = ({ row, index
 
     return (
         <DisplayRow row={row} index={index} exclude={exclude} edit={editable}>
-            {!changeItem ?
-                <td className="text-center">
-                    <Button variant="success" className="btn-block btn-fill" onClick={putItem}>Grant</Button>
-                    <Button variant="danger" className="btn-block btn-fill" onClick={deleteItem}>Deny</Button>
-                </td> :
-                <td className="text-center">
-                    <Button variant="primary" className="btn-block btn-fill" onClick={editTableCell}>Edit</Button>
-                    <Button variant="success" className="btn-block btn-fill" onClick={saveItem}>Confirm</Button>
-                </td>
+            {
+                changeItem ?
+                    <td className="text-center">
+                        <Button variant="primary" className="btn-block btn-fill" onClick={editTableCell}>Edit</Button>
+                        <Button variant="success" className="btn-block btn-fill" onClick={saveItem}>Confirm</Button>
+                    </td> :
+                putItem ?
+                    <td className="text-center">
+                        <Button variant="success" className="btn-block btn-fill" onClick={putItem}>Grant</Button>
+                        <Button variant="danger" className="btn-block btn-fill" onClick={deleteItem}>Deny</Button>
+                    </td> :
+                    <td className="text-center">
+                        <Button variant="danger" className="btn-block btn-fill" onClick={deleteItem}>Revoke</Button>
+                    </td>                   
             }
         </DisplayRow>
     )
