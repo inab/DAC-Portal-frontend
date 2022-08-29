@@ -19,7 +19,7 @@ describe("Stories: DAC-ADMIN ACTIONS - Revoke user permissions and setup data po
       cy.wait(500);
       // B. CHECK THERE ARE INCOMING REQUESTS AND POST PERMISSIONS.
       cy.get(".content").contains("Here you can revoke permissions");
-      cy.get(".btn-block.btn-fill.btn.btn-success").contains("Revoke").click();
+      cy.get(".btn-block.btn-fill.btn.btn-danger").contains("Revoke").click();
       cy.wait(500);
     })
 
