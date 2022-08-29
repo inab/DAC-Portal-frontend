@@ -18,6 +18,15 @@ export declare type Policy = {
     policy: string
 };
 
+export declare type Permission = {
+    sub: string,
+    type: string,
+    value: string,
+    source: string,
+    by: string,
+    asserted: number
+};
+
 export declare type Labels = {
     user: string,
     fileId: string,
@@ -26,28 +35,34 @@ export declare type Labels = {
     access: string,
     status: string,
     dacId: string,
-    policy: string
+    policy: string,
+    sub: string,
+    type: string,
+    value: string,
+    source: string,
+    by: string,
+    asserted: string
 };
 
 export type Handlers = {
     putItem: React.MouseEventHandler<HTMLButtonElement>
     deleteItem: React.MouseEventHandler<HTMLButtonElement>
     saveItem: React.MouseEventHandler<HTMLButtonElement>
-    changeItem: (React.ChangeEventHandler<HTMLInputElement>)
+    changeItem: React.ChangeEventHandler<HTMLInputElement>
 }
 
 export interface ITableProps {
-    allRows: Array<Request | Policy>,
+    allRows: Array<Request | Policy | Permission>,
     labels: Partial<Labels>,
     exclude?: Array<string>,
-    putItem?: (row: Request | Policy, index: number) => void,
-    deleteItem?: (row: Request | Policy, index: number) => void,
-    saveItem?: (row: Request | Policy) => void,
+    putItem?: (row: Request | Policy | Permission, index: number) => void,
+    deleteItem?: (row: Request | Policy | Permission, index: number) => void,
+    saveItem?: (row: Request | Policy | Permission) => void,
     changeItem?: (e: React.ChangeEvent<HTMLInputElement>) => void
 };
 
 export interface ITableRowProps {
-    row: Request | Policy,
+    row: Request | Policy | Permission,
     index: number,
     change?: React.ChangeEvent<HTMLInputElement>,
     edit?: ITableCell,
@@ -56,7 +71,7 @@ export interface ITableRowProps {
 };
   
 export interface ITableRowPropsWithButtons {
-    row: Request | Policy,
+    row: Request | Policy | Permission,
     index: number,
     exclude?: Array<string>,
     putItem: Handlers["putItem"] | undefined
