@@ -38,11 +38,22 @@ const getUsersRequests = async (request) => {
     })
 }
 
+const parseUserPermissions = (permissions) => {
+    let parsed = permissions.map((item) => {
+        const { sub, ga4gh_visa_v1 } = item 
+        return Object.assign({}, { sub: sub, ...ga4gh_visa_v1 })
+    })
+
+    return parsed
+}
+
 const getUsersPermissions = async (request) => {
     const { data } = await getUsersRequests(request);
-    return await usersPermissions(
+    const userPermissions = await usersPermissions(
         data.flatMap(item => item.user),
         data.flatMap(item => item.resource))
+
+    return userPermissions.length > 0 ? parseUserPermissions(userPermissions) : []
 }
 
 const deleteUserPermissions = async (request, items) => {
