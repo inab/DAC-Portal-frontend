@@ -21,7 +21,7 @@ const permissionsReducer = (state, action) => {
                 type: 'delete',
                 url: `${REACT_APP_PERMISSIONS_URL}/permissions`,
                 params: { 
-                    'values': `${object.ga4gh_visa_v1.value}`,
+                    'values': `${object.value}`,
                     'account-id': `${object.sub}`
                 },
                 index: index
