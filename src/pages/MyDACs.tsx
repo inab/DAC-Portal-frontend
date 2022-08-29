@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  Table,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Button, Card, Table, Container, Row, Col } from "react-bootstrap";
 
 function MyDACs() {
   return (
@@ -68,7 +61,7 @@ function MyDACs() {
                       <td>Children Hospital of Philadelphia</td>
                       <td>Open Paediatric Brain Tumor Atlas</td>
                       <td> John Smith, Jane Ford</td>
-                      <td class="text-center">
+                      <td className="text-center">
                         <Button variant="danger" className="btn-fill disabled">Apply</Button>
                       </td>
                     </tr>
@@ -77,7 +70,7 @@ function MyDACs() {
                       <td>R2 platform</td>
                       <td>Tumor Types studies</td>
                       <td>Samuel Grey, Aurora Beckett, Laura Heart</td>
-                      <td class="text-center">
+                      <td className="text-center">
                         <Button variant="danger" className="btn-fill disabled">Apply</Button>
                       </td>
                     </tr>
@@ -86,7 +79,7 @@ function MyDACs() {
                       <td>Institut Germans Trias i Pujol</td>
                       <td>Hepatoblastoma study</td>
                       <td>Lorena Díaz, Fernando Esper</td>
-                      <td class="text-center">
+                      <td className="text-center">
                         <Button variant="success" className="btn-fill disabled">Apply</Button>
                       </td>
                     </tr>

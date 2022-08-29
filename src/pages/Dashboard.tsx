@@ -1,10 +1,4 @@
-import React from "react";
-import {
-  Card,
-  Container,
-  Row,
-  Col
-} from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 
 function Dashboard() {
   return (
@@ -20,7 +14,7 @@ function Dashboard() {
                     <div className="icon-big text-center icon-warning">
                       <i className="fa fa-address-card" style={{ color: "purple" }}></i>
                     </div>
-                  </Col>
+                  </Col> 
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Registered DACs</p>
