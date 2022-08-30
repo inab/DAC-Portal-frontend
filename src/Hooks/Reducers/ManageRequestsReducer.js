@@ -10,7 +10,7 @@ const INITIAL_STATE = {
         'format': null,
         'account-id': null
     },
-    data: null
+    index: null
 }
 
 const requestsReducer = (state, action) => {
