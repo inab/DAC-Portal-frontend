@@ -1,5 +1,4 @@
-import React, { ReactElement, ReactEventHandler, ReactNode } from "react";
-import ReactTable from "react-table";
+import React, { ReactElement } from "react";
 
 export declare type Request = {
     _id: string,
