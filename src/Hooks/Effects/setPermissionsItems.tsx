@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUsersPermissions, deleteUserPermissions } from '../../Services/ManagePermissions';
-import useRequest from '../Reducers/ManagePermissionsReducer';
+import { useRequest } from '../Reducers/ManagePermissionsReducer';
 
 export default () => {
     const [request, handlers] = useRequest();
@@ -12,8 +12,10 @@ export default () => {
             request.type === "get" ? setItems(await getUsersPermissions(request)) :
                                      setItems(await deleteUserPermissions(request, items))
           } catch (err) {
-            console.log("error ", err.message)
-            alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
+            if (err instanceof Error) {
+              console.log(`Error: ${err.message}`)
+              alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
+            }
           }
         })();
       }, [request]);
