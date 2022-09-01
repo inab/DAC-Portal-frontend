@@ -1,19 +1,20 @@
-import { useCallback, useReducer } from 'react';
+import { useReducer } from 'react';
+import { State, Actions, Dispatchers } from '../../Models/ManageRequestsReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
-const INITIAL_STATE = {
+const INITIAL_STATE : State = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/pending`,
     token: localStorage.getItem("react-token"),
     params: {
-        'format': null,
-        'account-id': null
+        'format': undefined,
+        'account-id': undefined
     },
-    index: null
+    index: undefined
 }
 
-const requestsReducer = (state, action) => {
+const requestsReducer = (state: State, action: Actions): any => {
     switch (action.type) {
         case "accept":
             const { object, index } = action.payload;
@@ -30,22 +31,25 @@ const requestsReducer = (state, action) => {
                 index: index
             }  
         case "delete":
-            // IMPLEMENTATION NEEDED
+            return INITIAL_STATE
+        default:
+            return state
     }
 } 
 
-const useRequest = (object, index) => {
+const useRequest = () => {
     const [request, dispatch] = useReducer(requestsReducer, INITIAL_STATE)
 
-    const handlers = useCallback(({
+    const handlers : Dispatchers = {
         acceptRequest: (object, index) => {
             dispatch({ type: "accept", payload: { object: object, index: index } })
         },
         deleteRequest: (object, index) => {
             dispatch({ type: "delete", payload: { object: object, index: index } })
         }
-    }))
+    }
+    
     return [request, handlers]
 }
 
-export default useRequest
+export { useRequest }
