@@ -61,8 +61,8 @@ const getUsersPermissions = async (request: UserRequestParams) => {
     const { data } : AxiosResponse<Array<UserRequest>> = await getUsersRequests(request);
 
     const userPermissions = await usersPermissions(
-        data.flatMap(item => item.user),
-        data.flatMap(item => item.resource))
+        data.flatMap((item: UserRequest) => item.user),
+        data.flatMap((item: UserRequest) => item.resource))
 
     return userPermissions.length > 0 ? parseUserPermissions(userPermissions) : []
 }
