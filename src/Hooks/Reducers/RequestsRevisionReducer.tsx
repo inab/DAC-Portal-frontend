@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { State, Actions } from '../../Models/RequestsRevisionReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
@@ -8,15 +9,17 @@ const INITIAL_STATE = {
     token: localStorage.getItem("react-token")
 }
 
-const requestsReducer = (state, action) => {
+const requestsReducer = (state: State, action: Actions): any => {
     switch (action.type) {
         case "get":
-            return INITIAL_STATE
+            return state
     }
 }
 
 const useRequest = () => {
-    return useReducer(requestsReducer, INITIAL_STATE)
-}
+    const [request, dispatch] = useReducer(requestsReducer, INITIAL_STATE)
+    
+    return [request, dispatch]
+} 
 
-export default useRequest
+export { useRequest }
