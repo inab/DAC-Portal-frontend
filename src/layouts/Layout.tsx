@@ -1,18 +1,17 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-
+import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import CustomNavbar from "../components/Navbars/CustomNavbar";
 import Footer from "../components/Footer/Footer";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { Routes } from "../Models/Routes";
+import { routes } from "../routes";
 
-import routes from "../routes";
-
-function Layout() {
+const Layout: React.FC<RouteComponentProps> = (props) => {
   const mainPanel = React.useRef(null);
   const role = localStorage.getItem("role");
 
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
+  const getRoutes = (routes: Array<Routes>) => {
+    return routes.map((prop: Routes, key: any) => {
       if (role === "dac-admin" && prop.layout === "/dac-admin") {
         return (
           <Route
@@ -52,7 +51,7 @@ function Layout() {
   return (
     <>
       <div className="wrapper">
-        <Sidebar color="azure" routes={routes} />
+        <Sidebar color="azure" image={""} routes={routes} />
         <div className="main-panel" ref={mainPanel}>
           <CustomNavbar />
           <div className="content">
