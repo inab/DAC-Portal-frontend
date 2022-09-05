@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown } from "react-bootstrap";
-
-import routes from "../../routes";
+import { routes } from "../../routes";
 
 function Header() {
   const location = useLocation();
