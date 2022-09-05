@@ -19,7 +19,7 @@ const TABLE_LABELS = {
   policy: "Policy"
 }
 
-function Policies() {
+const Policies = () => {
   const [items, { savePolicy, changePolicy }] = useItems();
 
   return (
