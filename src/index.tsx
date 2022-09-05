@@ -17,8 +17,11 @@ const App = React.lazy( () => import ('./App'));
                                           localStorage.setItem("role", 'dac-member') 
                                         : localStorage.setItem("role", 'user')
     
-    localStorage.setItem("react-token", AuthService.getAccessToken());
-    localStorage.setItem("react-refresh-token", await AuthService.getRefreshToken());
+    const accessToken : string = AuthService.getAccessToken() || "";
+    const refreshToken : any = await AuthService.getRefreshToken();
+
+    localStorage.setItem("react-token", accessToken);
+    localStorage.setItem("react-refresh-token", refreshToken);
     
     ReactDOM.render((<Suspense fallback={null}> <App/> </Suspense>), document.getElementById('root'));
 })();
