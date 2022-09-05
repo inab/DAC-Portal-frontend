@@ -8,7 +8,7 @@ import RequestsRevision from "./pages/RequestsRevision";
 import ManageRequests from "./pages/ManageRequests";
 import ManagePermissions from "./pages/ManagePermissions";
 
-const dashboardRoutes = [
+export const routes = [
   {
     path: "/",
     name: "Dashboard",
@@ -63,7 +63,7 @@ const dashboardRoutes = [
     layout: "/dac-admin",
     role: "dac-admin"
   },
-  {
+  {  
     path: "/help",
     name: "Need help?",
     icon: "nc-icon nc-ambulance",
@@ -120,5 +120,3 @@ const dashboardRoutes = [
     role: "user"
   },
 ];
-
-export default dashboardRoutes;
