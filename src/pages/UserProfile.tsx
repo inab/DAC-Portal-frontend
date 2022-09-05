@@ -1,6 +1,6 @@
 import { Card, Form, Container, Row, Col } from "react-bootstrap";
 
-function User() {
+const User = () => {
   return (
     <>
       <Container fluid>

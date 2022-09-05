@@ -1,6 +1,6 @@
 import { Button, Card, Table, Container, Row, Col } from "react-bootstrap";
 
-function MyDACs() {
+const MyDACs = () => {
   return (
     <>
       <Container fluid>

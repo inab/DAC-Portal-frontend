@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 
-function NeedHelp() {
+const NeedHelp = () => {
   return (
     <>
       <Container fluid>

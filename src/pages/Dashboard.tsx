@@ -1,6 +1,6 @@
 import { Card, Container, Row, Col } from "react-bootstrap";
 
-function Dashboard() {
+const Dashboard = () => {
   return (
     <>
       <Container fluid>

@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 
-function Footer () {
+const Footer = () => {
   return (
     <footer className="footer px-0 px-lg-3">
       <Container fluid>
