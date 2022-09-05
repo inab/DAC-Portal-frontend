@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getPolicies, updatePolicies } from '../../Services/ManagePolicies';
 import { useRequest, useInput } from '../Reducers/ManagePoliciesReducer';
+import { Policy } from '../../Models/ManagePolicies';
 
 export default () => {
     const [request, requestHandlers] = useRequest();
     const [input, inputHandlers] = useInput();
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState<Array<Policy>>([]);
 
     useEffect(() => {
       (async () => {
@@ -24,8 +25,10 @@ export default () => {
           request.type === "get" ? setItems(await getPolicies(request)) :
                                    setItems(await updatePolicies(request))
         } catch (err) {
-          console.log("error ", err.message)
-          alert("An error ocurred: Policies could not be loaded/updated")
+          if (err instanceof Error) {
+            console.log(`Error: ${err.message}`)
+            alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
+          }
         }
       })();
     }, [request]);
