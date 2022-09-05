@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, RouteComponentProps, Switch } from "react-router-dom";
 
 import "./assets/bootstrap/bootstrap.scss";
 import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0";
@@ -12,7 +12,7 @@ const App = () => {
     <React.Fragment>
       <BrowserRouter>
       <Switch>
-        <Route path="/" render={(props) => <Layout {...props} />} />
+        <Route path="/" render={(props: RouteComponentProps) => <Layout {...props} />} />
       </Switch>
       </BrowserRouter>
     </React.Fragment>
