@@ -1,102 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import {
-  Button,
-  Card,
-  Form,
-  Container,
-  Row,
-  Col
-} from "react-bootstrap";
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, Card, Button } from "react-bootstrap";
+import { DACInfo } from '../Models/CreateDACReducer';
+import useItems from '../Hooks/Effects/setDACFormItems';
 
 function CreateDAC() {
+  const [items, { updateDAC, changeInput }] = useItems();
+  const [formIdx, setFormIdx] = useState<number | null>(null);
 
-  const { REACT_APP_DAC_PORTAL_API_URL } = process.env
-
-  const [request, setRequest] = useState({
-    type: 'get',
-    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/data`,
-    token: localStorage.getItem("react-token"),
-    params: { 'dacId' : null,
-              'dacName': null,
-              'dacStudy': null,
-              'datasets': null,
-              'adminName': null,
-              'adminSurname': null,
-              'emailAddress': null,
-              'studyDescription': null }
-  });
-
-  const [response, setResponse] = useState([]);
-
-  const [formIdx, setFormIdx] = useState(null)
-
-  useEffect(() => {
-    const apiRequest = async () => {
-      const query = await axios({
-        method: request.type,
-        url: request.url,
-        headers: {
-          Authorization: "Bearer " + request.token
-        },
-        params: request.params,
-      }).then(res => {
-        let destructured = [];
-        res = res.data;
-        res.map(dacData => {
-          let { dacId, info } = dacData;
-          destructured.push({
-            dacId, info
-          })
-        })
-        return destructured
-      }).catch(error => {
-      });
-      setResponse(query);
-    };
-    apiRequest();
-  }, [request]);
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    setRequest({
-      type: 'put',
-      url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/info`,
-      token: localStorage.getItem("react-token"),
-      params: { 'dacId' : `${response[formIdx].dacId}`,
-                'dacName': `${response[formIdx].info.dacName}`,
-                'dacStudy': `${response[formIdx].info.dacStudy}`,
-                'datasets': `${response[formIdx].info.datasets}`,
-                'adminName': `${response[formIdx].info.adminName}`,
-                'adminSurname': `${response[formIdx].info.adminSurname}`,
-                'emailAddress': `${response[formIdx].info.emailAddress}`,
-                'studyDescription': `${response[formIdx].info.studyDescription}` }
-    });
-  }
-  const changeInput = (e) => {
-    e.preventDefault();
-    let dacData = [...response];
-    let updatedInfo = { ...dacData[formIdx].info, [e.target.getAttribute('name')]: e.target.value }
-    dacData[formIdx].info = updatedInfo;
-    setResponse(dacData)
-  }
-
-  const selectDAC = (e) => {
+  const selectDAC = (e: any) => {
     e.preventDefault();
     setFormIdx(e.target.value)
   }
 
+  const submitHandler = (e: any, idx: number) => {
+    e.preventDefault();
+    updateDAC(items[idx]); 
+  }
+
   return (
     <Container fluid>
-      {response.length >= 1 ? (
+      {items.length >= 1 ? (
         <Row>
           <Col md="12">
             <h4> Please select a DAC from the list: </h4>
             <Form.Group>
               <Form.Control as="select" onChange={selectDAC}>
                 <option> Available DACs </option>
-                {response.map((d, idx) => {
+                {items.map((d: DACInfo, idx: number) => {
                   return <option value={idx}> {d.dacId} </option>
                 })}
               </Form.Control>
@@ -106,13 +36,13 @@ function CreateDAC() {
             {formIdx !== null ? (
               <Card>
                 <Card.Body>
-                  <form onSubmit={submitHandler}>
+                  <form onSubmit={(e) => submitHandler(e, formIdx)}>
                     <Row>
                       <Col className="pr-1" md="4">
                         <Form.Group>
                           <label> DAC ID</label>
                           <Form.Control
-                            placeholder={response[formIdx].dacId}
+                            placeholder={items[formIdx].dacId}
                             type="text"
                             disabled
                           ></Form.Control>
@@ -122,11 +52,11 @@ function CreateDAC() {
                         <Form.Group>
                           <label> DAC Name </label>
                           <Form.Control
-                            placeholder={response[formIdx].info ? response[formIdx].info.dacName
+                            placeholder={items[formIdx] ? items[formIdx].dacName
                               : "Select a name for your DAC"}
                             type="text"
                             name="dacName"
-                            onChange={changeInput}
+                            onChange={(e) => changeInput(e, formIdx)}
                           ></Form.Control>
                         </Form.Group>
                       </Col>
@@ -135,21 +65,21 @@ function CreateDAC() {
                       <Col className="px-1" md="8">
                         <label> DAC study </label>
                         <Form.Control
-                          placeholder={response[formIdx].info ? response[formIdx].info.dacStudy
+                          placeholder={items[formIdx] ? items[formIdx].dacStudy
                             : "Add your study name here"}
                           type="text"
                           name="dacStudy"
-                          onChange={changeInput}
+                          onChange={(e) => changeInput(e, formIdx)}
                         ></Form.Control>
                       </Col>
                       <Col className="px-1" md="4">
                         <label> Datasets description </label>
                         <Form.Control
-                          placeholder={response[formIdx].info ? response[formIdx].info.datasets
+                          placeholder={items[formIdx] ? items[formIdx].datasets
                             : "Add your description here"}
                           type="text"
                           name="datasets"
-                          onChange={changeInput}
+                          onChange={(e) => changeInput(e, formIdx)}
                         ></Form.Control>
                       </Col>
                     </Row>
@@ -157,21 +87,21 @@ function CreateDAC() {
                       <Col className="px-1" md="4">
                         <label> First Name </label>
                         <Form.Control
-                          placeholder={response[formIdx].info ? response[formIdx].info.adminName
+                          placeholder={items[formIdx] ? items[formIdx].adminName
                             : "Add your first name here"}
                           type="text"
                           name="adminName"
-                          onChange={changeInput}
+                          onChange={(e) => changeInput(e, formIdx)}
                         ></Form.Control>
                       </Col>
                       <Col className="px-1" md="4">
                         <label> Last Name </label>
                         <Form.Control
-                          placeholder={response[formIdx].info ? response[formIdx].info.adminSurname
+                          placeholder={items[formIdx] ? items[formIdx].adminSurname
                             : "Add your surname here"}
                           type="text"
                           name="adminSurname"
-                          onChange={changeInput}
+                          onChange={(e) => changeInput(e, formIdx)}
                         ></Form.Control>
                       </Col>
                       <Col className="pl-1" md="4">
@@ -180,11 +110,11 @@ function CreateDAC() {
                             Email address
                           </label>
                           <Form.Control
-                            placeholder={response[formIdx].info ? response[formIdx].info.emailAddress
+                            placeholder={items[formIdx] ? items[formIdx].emailAddress
                               : "Add your contact email here"}
                             type="email"
                             name="emailAddress"
-                            onChange={changeInput}
+                            onChange={(e) => changeInput(e, formIdx)}
                           ></Form.Control>
                         </Form.Group>
                       </Col>
@@ -196,11 +126,11 @@ function CreateDAC() {
                           <Form.Control
                             cols="80"
                             rows="4"
-                            placeholder={response[formIdx].info ? response[formIdx].info.studyDescription
+                            placeholder={items[formIdx] ? items[formIdx].studyDescription
                               : "Add the description of the study here"}
                             type="text"
                             name="studyDescription"
-                            onChange={changeInput}
+                            onChange={(e) => changeInput(e, formIdx)}
                           ></Form.Control>
                         </Form.Group>
                       </Col>
