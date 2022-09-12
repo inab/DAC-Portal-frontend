@@ -55,7 +55,7 @@
     "start-server": "NODE_ENV=dev nodemon --ignore keys.json -w src --exec \"babel-node server/index.js\"",
     "start-all": "concurrently \"npm run start-server\" \"npm run start\"",
     "start-all-prod": "concurrently \"npm run serve\" \"npm run start\"",
-    "test-unit-front": "react-scripts test",
+    "test-unit-front": "react-scripts test --watchAll=false",
     "cypress:serve": "cross-env NODE_ENV=test parcel serve --no-cache public/index.html",
     "cypress:run": "cypress run"
   },
