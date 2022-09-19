@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Container, Row, Col } from "react-bootstrap";
 import useItems from '../Hooks/Effects/setRevisionItems';
 import Table from '../components/Table/TableContainer';
@@ -13,11 +14,10 @@ const TABLE_LABELS = {
   resource: "Resource",
   comment: "Comment",
   status: "Status"
-}
+} 
 
 const RequestsStatus = () => {
   const [items] = useItems();
-  
   return (
     <Container fluid>
       {items.length >= 1 ? (

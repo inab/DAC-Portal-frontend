@@ -1,9 +1,10 @@
+import React from 'react';
 import useItems from '../Hooks/Effects/setPoliciesItems';
 import {
   Card,
   Container,
   Row,
-  Col,
+  Col
 } from "react-bootstrap";
 import Table from '../components/Table/TableContainer';
 
