@@ -7,8 +7,12 @@ const getPendingUserRequests = async (request: RequestParams) => {
     return await requestsController(http).getUsersRequest(request)
 }
 
-const updateUsersRequests = async (request: RequestParams, items: Array<DataRequest>) => {
+const acceptUserRequest = async (request: RequestParams, items: Array<DataRequest>) => {
     return await requestsController(http).acceptUsersRequests(request, items)
 }
 
-export { getPendingUserRequests, updateUsersRequests }
+const denyUserRequest = async (request: RequestParams, items: Array<DataRequest>) => {
+    return await requestsController(http).denyUsersRequests(request, items)
+}
+
+export { getPendingUserRequests, acceptUserRequest, denyUserRequest }

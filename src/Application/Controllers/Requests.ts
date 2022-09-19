@@ -18,6 +18,10 @@ export const requestsController = (client: Http)  => ({
         await client.put<DataRequest[]>(request.url, request.params, setConfig() );
         return items.filter(( element: DataRequest, index: number) => index !== request.index);
     },
+    denyUsersRequests: async (request: any, items: Array<DataRequest>) => {
+        await client.put<DataRequest[]>(request.url, request.params, setConfig() );
+        return items.filter(( element: DataRequest, index: number) => index !== request.index);
+    },
     deleteUsersPermissions: async (request: any, items: Array<Assertion>) => {
         await client.delete<Assertion[]>(request.url, request.params, setConfig() );
         return items.filter(( element: Assertion, index: number) => index !== request.index);
