@@ -20,7 +20,7 @@ const requestsReducer = (state: State, action: Actions): any => {
             return {
                 ...state,
                 type: 'put',
-                url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests`,
+                url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/grant`,
                 params: {
                     'format': "PLAIN",
                     'account-id': `${object.user}`,
@@ -30,7 +30,16 @@ const requestsReducer = (state: State, action: Actions): any => {
                 index: index
             }  
         case "delete":
-            return INITIAL_STATE
+            return {
+                ...state,
+                type: 'delete',
+                url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/deny`,
+                params: {
+                    'acl': `${object.resource}`,
+                    'object-id': `${object._id}`
+                },
+                index: index
+            } 
         default:
             return state
     }
