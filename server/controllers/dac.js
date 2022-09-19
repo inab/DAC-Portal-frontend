@@ -51,7 +51,7 @@ const updateDacPolicies = async (req, res) => {
 }
 const updateInfo = async (req, res) => {
     const userInfo = jwt_decode(req.headers.authorization);
-    const response = await DacService.updateDacInfo(userInfo.sub, req.query);
+    const response = await DacService.updateDacInfo(userInfo.sub, req.body);
     res.send(response)
 }
 
