@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 import { act } from '@testing-library/react-hooks';
 import RequestsRevision from '../../pages/ManageRequests';
-import { getPendingUserRequests, updateUsersRequests } from '../../Application/UseCases/ManageRequests';
+import { getPendingUserRequests, acceptUserRequest } from '../../Application/UseCases/ManageRequests';
 import { prettyDOM } from '@testing-library/dom'
 //import Table from '../../components/Table/TableContainer';
 
@@ -88,9 +88,9 @@ describe("Manage requests page", () => {
     test('After accepting a request by clicking the "Grant" button, the row is removed from table', async () => {
         let component;
 
-        // We mock the ManageRequests Service (getPendingUserRequests & updateUsersRequests methods)
+        // We mock the ManageRequests Service (getPendingUserRequests & acceptUsersRequests methods)
         getPendingUserRequests.mockResolvedValueOnce(mockItems);
-        updateUsersRequests.mockResolvedValueOnce(mockAfterClickingItems);
+        acceptUserRequest.mockResolvedValueOnce(mockAfterClickingItems);
 
         await act(async () => {
             component = render(<RequestsRevision />)
