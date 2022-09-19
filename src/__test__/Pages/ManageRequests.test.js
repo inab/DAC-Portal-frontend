@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
 import { act } from '@testing-library/react-hooks';
 import RequestsRevision from '../../pages/ManageRequests';
-import { getPendingUserRequests, updateUsersRequests } from '../../Services/ManageRequests';
+import { getPendingUserRequests, updateUsersRequests } from '../../Application/UseCases/ManageRequests';
 import { prettyDOM } from '@testing-library/dom'
 //import Table from '../../components/Table/TableContainer';
 
@@ -37,7 +37,7 @@ let mockAfterClickingItems = [
 ]
 
 // Mocking ManageRequestsRevision Service module
-jest.mock("../../Services/ManageRequests");
+jest.mock("../../Application/UseCases/ManageRequests");
 
 describe("Manage requests page", () => {
     test('Requests are initially loaded (2 requests)', async () => {

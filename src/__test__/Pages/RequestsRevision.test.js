@@ -2,7 +2,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { act } from '@testing-library/react-hooks';
 import RequestsRevision from '../../pages/RequestsRevision';
-import { getUserRequests } from '../../Services/ManageRequestsRevision';
+import { getUserRequests } from '../../Application/UseCases/ManageRequestsRevision';
+import { prettyDOM } from '@testing-library/dom';
 
 let mockItems = [{
     fileId: "003",
@@ -12,7 +13,7 @@ let mockItems = [{
 }]
 
 // Mocking ManageRequestsRevision Service module
-jest.mock("../../Services/ManageRequestsRevision");
+jest.mock("../../Application/UseCases/ManageRequestsRevision");
 
 describe("Requests revision page", () => {
     test('Requests are initially loaded', async () => {
