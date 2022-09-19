@@ -1,29 +1,8 @@
-import { Method } from 'axios';
-
-export declare type Policy = {
-    _id: string,
-    dacId: string,
-    fileId: string,
-    acl: string,
-    policy: string
-};
-
-export interface PoliciesRequestParams {
-    type: Method,
-    url: string,
-    token: string | null,
-    params?: {
-        'format'?: string,
-        'account-id'?: string,
-        'acl'?: string,
-        'object-id'?: string,
-        'values'?: string
-    },
-    index?: number | undefined
-}
+import { Policy } from '../../../Domain/Entities/Entities'
+import { RequestParams } from '../../../Domain/Ports/Requests'
 
 export declare type State = { 
-    request: PoliciesRequestParams,
+    request: RequestParams,
     input: {
         index?: number,
         value?: string

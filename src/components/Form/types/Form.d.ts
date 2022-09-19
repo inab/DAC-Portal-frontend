@@ -1,5 +1,5 @@
 import { FormControlProps } from "react-bootstrap"
-import { DACInfo } from "./CreateDACReducer";
+import { DACInfo } from "../../../Domain/Entities/Entities";
 
 export interface IForm {
     data: Array<DACInfo>,

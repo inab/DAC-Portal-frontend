@@ -1,23 +1,5 @@
-import { Method } from 'axios';
-
-export declare type DACInfo = {
-    dacId?: string,
-    dacName?: string,
-    dacStudy?: string,
-    datasets?: string,
-    adminName?: string,
-    adminSurname?: string,
-    emailAddress?: string,
-    studyDescription?: string,
-    status?: boolean
-};
-
-export interface DACRequestParams {
-    type: Method,
-    url: string,
-    token: string | null,
-    params: DACInfo
-}
+import { DACInfo } from '../../../Domain/Entities/Entities'
+import { DACRequestParams } from '../../../Domain/Ports/Requests'
 
 export declare type State = { 
     request: DACRequestParams,

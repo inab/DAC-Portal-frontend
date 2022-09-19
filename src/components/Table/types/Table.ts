@@ -1,30 +1,5 @@
 import React, { ReactElement } from "react";
-
-export declare type Request = {
-    _id: string,
-    user: string,
-    fileId: string,
-    resource: string,
-    comment: string,
-    status: string
-};
-
-export declare type Policy = {
-    _id: string,
-    dacId: string,
-    fileId: string,
-    acl: string,
-    policy: string
-};
-
-export declare type Permission = {
-    sub: string,
-    type: string,
-    value: string,
-    source: string,
-    by: string,
-    asserted: number
-};
+import { DataRequest, Assertion, Policy } from '../../../Domain/Entities/Entities'
 
 export declare type Labels = {
     user: string,
@@ -51,17 +26,17 @@ export type Handlers = {
 }
 
 export interface ITableProps {
-    allRows: Array<Request | Policy | Permission>,
+    allRows: Array<DataRequest | Policy | Assertion>,
     labels: Partial<Labels>,
     exclude?: Array<string>,
-    putItem?: (row: Request | Policy | Permission, index: number) => void,
-    deleteItem?: (row: Request | Policy | Permission, index: number) => void,
-    saveItem?: (row: Request | Policy | Permission) => void,
+    putItem?: (row: DataRequest | Policy | Assertion, index: number) => void,
+    deleteItem?: (row: DataRequest | Policy | Assertion, index: number) => void,
+    saveItem?: (row: DataRequest | Policy | Assertion) => void,
     changeItem?: (e: React.ChangeEvent<HTMLInputElement>) => void
 };
 
 export interface ITableRowProps {
-    row: Request | Policy | Permission,
+    row: DataRequest | Policy | Assertion,
     index: number,
     change?: React.ChangeEvent<HTMLInputElement>,
     edit?: ITableCell,
@@ -70,7 +45,7 @@ export interface ITableRowProps {
 };
   
 export interface ITableRowPropsWithButtons {
-    row: Request | Policy | Permission,
+    row: DataRequest | Policy | Assertion,
     index: number,
     exclude?: Array<string>,
     putItem: Handlers["putItem"] | undefined
