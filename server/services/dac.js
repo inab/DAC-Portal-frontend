@@ -77,6 +77,18 @@ const createUserPermissions = async (id, resource, session) => {
     return response
 }
 
+// 1.A.3. DENY REQUEST: CHANGE THE DATA REQUEST STATUS TO "DENIED"
+const denyUserRequest = async (dacIds, objectId) => {
+    let response = await Promise.all(dacIds.map(async id => {
+        return await DacRequests.findOneAndUpdate(
+            { 'dacId': id, 'requests._id': objectId },
+            {  $set : { "requests.$.status" : "Denied" }},
+            {  new: true })
+    }))
+
+    return response
+}
+
 // 1.B. GET REQUESTS BY DAC AND STATUS
 
 // 1.B.1. QUERY BY DAC AND STATUS (AGGREGATION)
@@ -104,7 +116,7 @@ const getAcceptedUserRequests = async (id) => await DacRequests.aggregate(queryB
 // 1.C. GET USER REQUESTS ASSIGNED TO THIS DAC-MEMBER BY ID
 const getUserDacs = async (id) => {
     const response = await DacData.find({ 'members': id })
-                                  .select({ '_id': 0, 'members': 0, 'files': 0 });
+                                  .select({ '_id': 0, 'members': 0, 'files': 0, 'info': 0 });
     return response
 }
 
@@ -196,4 +208,5 @@ export {
     getUserDacs, 
     updatePolicies, 
     updateDacInfo, 
-    acceptRequestTransaction }
+    acceptRequestTransaction,
+    denyUserRequest }
