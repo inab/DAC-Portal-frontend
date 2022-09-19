@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUserDACs, updateDACInfo } from '../../Services/CreateDAC';
+import { getUserDACs, updateDACInfo } from '../../Application/UseCases/CreateDAC';
 import { useRequest, useInput } from '../Reducers/CreateDACReducer';
 
 export default () => {
@@ -9,9 +9,9 @@ export default () => {
 
     useEffect(() => {
         (async () => {
-            let { index, name, value } = input;
+            const { index, name, value } = input;
             if (index) {
-                let updatedItems = [...items];
+                const updatedItems = [...items];
                 updatedItems[index][name] = value;
                 setItems(updatedItems);
             }

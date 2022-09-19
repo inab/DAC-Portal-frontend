@@ -1,12 +1,11 @@
 import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from '../../Models/CreateDACReducer';
+import { State, Actions, Dispatchers } from './types/CreateDACReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE_REQUEST: State["request"] = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/data`,
-    token: localStorage.getItem("react-token"),
     params: {
         dacId: undefined,
         dacName: undefined,

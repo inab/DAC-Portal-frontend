@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
-import { getUserRequests } from '../../Services/ManageRequestsRevision';
+import { getUserRequests } from '../../Application/UseCases/ManageRequestsRevision';
 import { useRequest } from '../Reducers/RequestsRevisionReducer';
-import { UserRequest } from '../../Models/RequestsRevision';
+import { DataRequest } from '../../Domain/Entities/Entities';
 
 export default () => {
-    const [request, dispatch] = useRequest();
-    const [items, setItems] = useState<Array<UserRequest>>([]);
+  const [request, dispatch] = useRequest();
+  const [items, setItems] = useState<Array<DataRequest>>([]);
 
-    useEffect(() => { dispatch({ type: "get" }) }, [])
+  useEffect(() => { dispatch({ type: "get" }) }, [])
 
-    useEffect(() => {
-        (async () => {
-          try {
-            setItems(await getUserRequests(request))
-          }
-          catch (err) {
-            if (err instanceof Error) {
-              console.log(`Error: ${err.message}`)
-              alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
-            }
-          }
-        })();
-      }, [request]);
+  useEffect(() => {
+    (async () => {
+      try {
+        setItems(await getUserRequests(request))
+      }
+      catch (err) {
+        if (err instanceof Error) {
+          console.log(`Error: ${err.message}`)
+          alert("An error ocurred: Users permissions assigned by your DACs could not be loaded")
+        }
+      }
+    })();
+  }, [request]);
 
-    return [items]
+  return [items]
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, Form, Row, Col } from "react-bootstrap";
-import { IForm } from '../../Models/Form';
-import { DACInfo } from '../../Models/CreateDACReducer';
+import { IForm } from './types/Form';
+import { DACInfo } from '../../Domain/Entities/Entities';
 
 const PageForm: React.FC<IForm> = ({ data, update, change }) => {
 
@@ -26,7 +26,7 @@ const PageForm: React.FC<IForm> = ({ data, update, change }) => {
                         <Form.Control as="select" onChange={selectDAC}>
                             <option> Available DACs </option>
                             {data.map((d: DACInfo, idx: number) => {
-                                return <option value={idx}> {d.dacId} </option>
+                                return <option key={idx} value={idx}> {d.dacId} </option>
                             })}
                         </Form.Control>
                     </Form.Group>

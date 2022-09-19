@@ -1,12 +1,11 @@
 import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from '../../Models/ManagePermissionsReducer';
+import { State, Actions, Dispatchers } from './types/ManagePermissionsReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
 
 const INITIAL_STATE : State = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/accepted`,
-    token: localStorage.getItem("react-token"),
     params: {
         'format': undefined,
         'account-id': undefined,
@@ -18,10 +17,9 @@ const INITIAL_STATE : State = {
 }
 
 const permissionsReducer = (state: State, action: Actions): any => {
+    const { object, index } = action.payload;
     switch (action.type) {
         case "delete":
-            const { object, index } = action.payload;
-
             return {
                 ...state,
                 type: 'delete',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from "react-bootstrap";
-import { ITableRowProps, ITableRowPropsWithButtons, ITableCell } from '../../Models/Table';
+import { ITableRowProps, ITableRowPropsWithButtons, ITableCell } from './types/Table';
 
 const DisplayRow: React.FC<ITableRowProps> = ({ row, index, exclude, edit, children }) => {
     const filters = exclude ? exclude : [""]

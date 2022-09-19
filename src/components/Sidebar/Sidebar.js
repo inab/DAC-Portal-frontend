@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLocation, NavLink } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import logo from "../../assets/img/ipc-logo.png";
@@ -13,7 +14,7 @@ function Sidebar({ color, image, routes }) {
       <div
         className="sidebar-background"
         style={{
-          backgroundImage: "url(" + image + ")",
+          backgroundImage: "url(" + image + ")"
         }}
       />
       <div className="sidebar-wrapper">

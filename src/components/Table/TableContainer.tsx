@@ -1,21 +1,22 @@
 import React from 'react';
 import { Table } from "react-bootstrap";
-import { Request, Policy, Permission, ITableProps} from '../../Models/Table';
+import { DataRequest, Policy, Assertion } from '../../Domain/Entities/Entities';
+import { ITableProps} from './types/Table';
 import { DisplayRow, DisplayRowWithButtons }  from './TableRow';
 
 const PageTable: React.FC<ITableProps> = ({ allRows, labels, exclude, putItem, deleteItem, saveItem, changeItem }) => {
-    let withButtons = ( putItem || deleteItem || saveItem || changeItem ) ? true : false
+    const withButtons = ( putItem || deleteItem || saveItem || changeItem ) ? true : false
 
     return (
         <>
             <Table className="table-hover table-striped">
                 <thead>
                     <tr>
-                        {Object.values(labels).map(element => <th className="border-0"> {element} </th> )}
+                        {Object.values(labels).map(element => <th key={element} className="border-0"> {element} </th> )}
                     </tr>
                 </thead>
                 <tbody>
-                    {allRows.map((row: Request | Policy | Permission, index: number) => withButtons ? (
+                    {allRows.map((row: DataRequest | Policy | Assertion, index: number) => withButtons ? (
                         <tr> 
                             <DisplayRowWithButtons
                                 row={row}

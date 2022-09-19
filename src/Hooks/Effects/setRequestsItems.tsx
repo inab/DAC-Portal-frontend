@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getPendingUserRequests, updateUsersRequests } from '../../Services/ManageRequests';
+import { getPendingUserRequests, updateUsersRequests } from '../../Application/UseCases/ManageRequests';
 import { useRequest } from '../Reducers/ManageRequestsReducer';
-import { UserRequest } from '../../Models/ManageRequests';
+import { DataRequest } from '../../Domain/Entities/Entities';
 
 export default () => {
   const [request, handlers] = useRequest();
-  const [items, setItems] = useState<Array<UserRequest>>([]);
+  const [items, setItems] = useState<Array<DataRequest>>([]);
 
   useEffect(() => {
     (async () => {

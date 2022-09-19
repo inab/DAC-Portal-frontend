@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { State, Actions } from '../../Models/RequestsRevisionReducer';
+import { State, Actions } from './types/RequestsRevisionReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 

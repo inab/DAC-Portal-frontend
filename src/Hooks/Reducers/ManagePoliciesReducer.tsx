@@ -1,13 +1,17 @@
 import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from '../../Models/ManagePoliciesReducer';
+import { State, Actions, Dispatchers } from './types/ManagePoliciesReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE_REQUEST : State["request"] = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`,
-    token: localStorage.getItem("react-token"),
-    params: undefined
+    params: {
+        'dac-id': undefined,
+        'ds-id': undefined,
+        'acl': undefined,
+        'policy': undefined
+    }
 }
 
 const INITIAL_STATE_INPUT : State["input"] = {

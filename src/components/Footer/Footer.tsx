@@ -1,3 +1,4 @@
+import React from 'react';
 import { Container } from "react-bootstrap";
 
 const Footer = () => {
@@ -16,7 +17,7 @@ const Footer = () => {
                 Catalogue portal
               </a>
             </li>
-            <li>
+            <li> 
               <a href="https://vre.ipc-project.bsc.es">
                 Virtual Research Environment
               </a>

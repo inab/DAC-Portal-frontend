@@ -1,12 +1,11 @@
 import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from '../../Models/ManageRequestsReducer';
+import { State, Actions, Dispatchers } from './types/ManageRequestsReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE : State = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/requests/pending`,
-    token: localStorage.getItem("react-token"),
     params: {
         'format': undefined,
         'account-id': undefined
@@ -15,9 +14,9 @@ const INITIAL_STATE : State = {
 }
 
 const requestsReducer = (state: State, action: Actions): any => {
+    const { object, index } = action.payload;
     switch (action.type) {
         case "accept":
-            const { object, index } = action.payload;
             return {
                 ...state,
                 type: 'put',

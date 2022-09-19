@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
-import { ManageAuthService } from './Services/ManageAuth';
+import { ManageAuthService } from './Application/UseCases/ManageAuth';
 
 const App = React.lazy( () => import ('./App'));
 
