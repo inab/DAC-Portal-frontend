@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUserRequests } from '../../Application/UseCases/ManageRequestsRevision';
-import { useRequest } from '../Reducers/RequestsRevisionReducer';
+import { useRequest } from '../Dispatchers/RequestsRevision';
 import { DataRequest } from '../../Domain/Entities/Entities';
 
 export default () => {

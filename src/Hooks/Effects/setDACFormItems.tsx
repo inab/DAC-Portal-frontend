@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUserDACs, updateDACInfo } from '../../Application/UseCases/CreateDAC';
-import { useRequest, useInput } from '../Reducers/CreateDACReducer';
+import { useRequest, useInput } from '../Dispatchers/CreateDAC';
 
 export default () => {
     const [request, requestHandlers] = useRequest();

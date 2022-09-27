@@ -1,5 +1,4 @@
-import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from './types/ManagePermissionsReducer';
+import { State, Actions } from './types/ManagePermissionsReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
 
@@ -35,15 +34,7 @@ const permissionsReducer = (state: State, action: Actions): any => {
     }
 }
 
-const useRequest = () => {
-    const [request, dispatch] = useReducer(permissionsReducer, INITIAL_STATE)
- 
-    const handlers: Dispatchers = {
-        deleteItem: (object, index) => {
-            dispatch({ type: "delete", payload: { object: object, index: index } })
-        }
-    }
-    return [request, handlers]
+export default {
+    initialState: INITIAL_STATE,
+    permissions : permissionsReducer
 }
-
-export { useRequest }

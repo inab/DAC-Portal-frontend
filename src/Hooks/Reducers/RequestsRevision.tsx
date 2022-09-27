@@ -1,4 +1,3 @@
-import { useReducer } from 'react';
 import { State, Actions } from './types/RequestsRevisionReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
@@ -16,10 +15,8 @@ const requestsReducer = (state: State, action: Actions): any => {
     }
 }
 
-const useRequest = () => {
-    const [request, dispatch] = useReducer(requestsReducer, INITIAL_STATE)
-    
-    return [request, dispatch]
-} 
+export default {
+    initialState: INITIAL_STATE,
+    requests : requestsReducer 
+}
 
-export { useRequest }

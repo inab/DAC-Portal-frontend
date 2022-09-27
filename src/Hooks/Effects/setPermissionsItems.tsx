@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUsersPermissions, deleteUserPermissions } from '../../Application/UseCases/ManagePermissions';
-import { useRequest } from '../Reducers/ManagePermissionsReducer';
+import { useRequest } from '../Dispatchers/ManagePermissions';
 import { Assertion } from '../../Domain/Entities/Entities';
 
 export default () => {

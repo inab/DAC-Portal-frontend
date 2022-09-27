@@ -1,5 +1,4 @@
-import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from './types/ManagePoliciesReducer';
+import { State, Actions } from './types/ManagePoliciesReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
@@ -55,22 +54,11 @@ const policiesInputReducer = (state: State, action: Actions) : any => {
     }
 }
 
-const useRequest = () => {
-    const [request, dispatch] = useReducer(policiesRequestReducer, INITIAL_STATE_REQUEST)
-
-    const handlers : Dispatchers = {
-        savePolicy: (object) => dispatch({ type: "save", payload: { object: object } })
-    }
-    return [request, handlers]
+export default {
+    initialState: {
+        requests : INITIAL_STATE_REQUEST,
+        input : INITIAL_STATE_INPUT
+    },
+    requests : policiesRequestReducer,
+    input : policiesInputReducer 
 }
-
-const useInput = () => {
-    const [input, dispatch] = useReducer(policiesInputReducer, INITIAL_STATE_INPUT)
-
-    const handlers : Dispatchers = {
-        changePolicy: (evt) => dispatch({ type: "change", payload: { evt: evt } })
-    }
-    return [input, handlers]
-}
-
-export { useRequest, useInput }

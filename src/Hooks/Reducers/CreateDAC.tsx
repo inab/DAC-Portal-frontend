@@ -1,5 +1,4 @@
-import { useReducer } from 'react';
-import { State, Actions, Dispatchers } from './types/CreateDACReducer';
+import { State, Actions } from './types/CreateDACReducer';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
@@ -64,24 +63,12 @@ const dacsInputReducer = (state: State, action: Actions): any => {
     }
 }
 
-const useRequest = () => {
-    const [request, dispatch] = useReducer(dacsRequestsReducer, INITIAL_STATE_REQUEST)
-
-    const handlers: Dispatchers = {
-        updateDAC: (object) => {
-            dispatch({ type: "update", payload: { object: object } })
-        }
-    }
-    return [request, handlers]
+export default {
+    initialState: {
+        requests : INITIAL_STATE_REQUEST,
+        input : INITIAL_STATE_INPUT
+    },
+    requests : dacsRequestsReducer,
+    input : dacsInputReducer 
 }
 
-const useInput = () => {
-    const [input, dispatch] = useReducer(dacsInputReducer, INITIAL_STATE_INPUT)
-
-    const handlers: Dispatchers = {
-        changeInput: (evt, index) => dispatch({ type: "change", payload: { evt: evt, index } })
-    }
-    return [input, handlers]
-}
-
-export { useRequest, useInput }
