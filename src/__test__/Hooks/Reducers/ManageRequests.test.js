@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useRequest } from '../../../Hooks/Reducers/ManageRequestsReducer';
+import { useRequest } from '../../../Hooks/Dispatchers/ManageRequests';
 //import { prettyDOM } from '@testing-library/dom'
 
 const mockRequest = {
