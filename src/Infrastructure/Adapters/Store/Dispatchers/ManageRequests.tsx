@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { Dispatchers } from '../Reducers/types/ManageRequestsReducer';
+import { Dispatchers } from '../../../../Domain/Ports/Store/ManageRequests';
 import reducers from '../Reducers/ManageRequests';
 
 const useRequest = () => {

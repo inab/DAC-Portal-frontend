@@ -1,4 +1,4 @@
-import { State, Actions } from './types/ManagePermissionsReducer';
+import { State, Actions } from '../../../../Domain/Ports/Store/ManagePermissions';
 
 const { REACT_APP_DAC_PORTAL_API_URL, REACT_APP_PERMISSIONS_URL } = process.env
 

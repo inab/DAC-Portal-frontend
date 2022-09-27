@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getUserRequests } from '../../Application/UseCases/ManageRequestsRevision';
+import { getUserRequests } from '../../../../Application/UseCases/ManageRequestsRevision';
 import { useRequest } from '../Dispatchers/RequestsRevision';
-import { DataRequest } from '../../Domain/Entities/Entities';
+import { DataRequest } from '../../../../Domain/Entities/Entities';
 
 export default () => {
   const [request, dispatch] = useRequest();

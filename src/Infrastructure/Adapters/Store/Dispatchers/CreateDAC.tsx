@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { Dispatchers } from '../Reducers/types/CreateDACReducer';
+import { Dispatchers } from '../../../../Domain/Ports/Store/CreateDAC';
 import reducers from '../Reducers/CreateDAC';
 
 const useRequest = () => {

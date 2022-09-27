@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getPolicies, updatePolicies } from '../../Application/UseCases/ManagePolicies';
+import { getPolicies, updatePolicies } from '../../../../Application/UseCases/ManagePolicies';
 import { useRequest, useInput } from '../Dispatchers/ManagePolicies';
-import { Policy } from '../../Domain/Entities/Entities';
+import { Policy } from '../../../../Domain/Entities/Entities';
 
 export default () => {
     const [request, requestHandlers] = useRequest();

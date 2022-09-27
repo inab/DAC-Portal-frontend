@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { Dispatchers } from '../Reducers/types/ManagePermissionsReducer';
+import { Dispatchers } from '../../../../Domain/Ports/Store/ManagePermissions';
 import reducers from '../Reducers/ManagePermissions';
 
 const useRequest = () => {

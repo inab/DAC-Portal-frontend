@@ -1,4 +1,4 @@
-import { State, Actions } from './types/RequestsRevisionReducer';
+import { State, Actions } from '../../../../Domain/Ports/Store/RequestsRevision';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 

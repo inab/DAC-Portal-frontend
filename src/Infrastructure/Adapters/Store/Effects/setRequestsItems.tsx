@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getPendingUserRequests, acceptUserRequest, denyUserRequest } from '../../Application/UseCases/ManageRequests';
+import { getPendingUserRequests, acceptUserRequest, denyUserRequest } from '../../../../Application/UseCases/ManageRequests';
 import { useRequest } from '../Dispatchers/ManageRequests';
-import { DataRequest } from '../../Domain/Entities/Entities';
+import { DataRequest } from '../../../../Domain/Entities/Entities';
 
 export default () => {
   const [request, handlers] = useRequest();

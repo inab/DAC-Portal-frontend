@@ -1,4 +1,4 @@
-import { State, Actions } from './types/ManagePoliciesReducer';
+import { State, Actions } from '../../../../Domain/Ports/Store/ManagePolicies';
 
 const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 

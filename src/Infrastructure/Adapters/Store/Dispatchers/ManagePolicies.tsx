@@ -1,5 +1,5 @@
 import { useReducer } from 'react';
-import { Dispatchers } from '../Reducers/types/ManagePoliciesReducer';
+import { Dispatchers } from '../../../../Domain/Ports/Store/ManagePolicies';
 import reducers from '../Reducers/ManagePolicies';
 
 const useRequest = () => {
