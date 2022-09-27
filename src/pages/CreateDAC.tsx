@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import Form from '../components/Form/Form';
-import useItems from '../Hooks/Effects/setDACFormItems';
+import useItems from '../Infrastructure/Adapters/Store/Effects/setDACFormItems';
 
 const CreateDAC = () => {
   const [items, { updateDAC, changeInput }] = useItems();

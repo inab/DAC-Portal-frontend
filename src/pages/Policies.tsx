@@ -1,11 +1,6 @@
 import React from 'react';
-import useItems from '../Hooks/Effects/setPoliciesItems';
-import {
-  Card,
-  Container,
-  Row,
-  Col
-} from "react-bootstrap";
+import useItems from '../Infrastructure/Adapters/Store/Effects/setPoliciesItems';
+import { Card, Container, Row, Col } from "react-bootstrap";
 import Table from '../components/Table/TableContainer';
 
 const PAGE_LABELS = {

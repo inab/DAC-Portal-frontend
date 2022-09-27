@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Container, Row, Col } from "react-bootstrap";
-import useItems from '../Hooks/Effects/setPermissionsItems';
+import useItems from '../Infrastructure/Adapters/Store/Effects/setPermissionsItems';
 import Table from '../components/Table/TableContainer';
 
 const PAGE_LABELS = {
