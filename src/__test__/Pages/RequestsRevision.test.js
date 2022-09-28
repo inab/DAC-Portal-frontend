@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { act } from '@testing-library/react-hooks';
-import RequestsRevision from '../../pages/RequestsRevision';
+import RequestsRevision from '../../Infrastructure/Views/Pages/RequestsRevision';
 import { getUserRequests } from '../../Application/UseCases/ManageRequestsRevision';
 import { prettyDOM } from '@testing-library/dom';
 

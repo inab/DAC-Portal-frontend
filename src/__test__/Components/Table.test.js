@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, fireEvent } from '@testing-library/react';
-import Table from '../../components/Table/TableContainer';
-import { DisplayRow } from '../../components/Table/TableRow';
+import Table from '../../Infrastructure/Views/Components/Table/TableContainer';
+import { DisplayRow } from '../../Infrastructure/Views/Components/Table/TableRow';
 
 const mockData = [
     {
