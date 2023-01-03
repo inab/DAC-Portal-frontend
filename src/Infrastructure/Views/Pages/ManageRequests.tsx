@@ -33,7 +33,7 @@ const RequestsStatus = () => {
                   <Table
                     allRows={items}
                     labels={TABLE_LABELS}
-                    exclude={["_id", "status"]}
+                    exclude={["id", "status"]}
                     putItem={acceptRequest}
                     deleteItem={deleteRequest} />
                 </Card.Body>

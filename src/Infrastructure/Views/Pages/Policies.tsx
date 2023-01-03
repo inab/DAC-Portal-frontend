@@ -32,7 +32,7 @@ const Policies = () => {
                 <Table
                     allRows={items}
                     labels={TABLE_LABELS}
-                    exclude={["_id", "acl"]}
+                    exclude={["id", "acl"]}
                     changeItem={changePolicy}
                     saveItem={savePolicy} />
                 </Card.Body>
