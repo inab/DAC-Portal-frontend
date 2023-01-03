@@ -57,9 +57,14 @@ jobs:
           name: Run DAC-Portal
           command: |
             sudo chmod -R 777 ./
-            docker-compose -f docker-compose.tests.yml up -d dac-portal
+            docker-compose -f docker-compose.tests.yml up -d dac-portal-frontend
             docker-compose -f docker-compose.tests.yml logs
             sleep 60
+      - run:
+          name: Start DAC-Portal-backend
+          command: |
+            docker-compose -f docker-compose.tests.yml up -d dac-portal-backend
+            docker-compose -f docker-compose.tests.yml logs
       - run:
           name: Start RabbitMQ
           command: |
@@ -73,8 +78,8 @@ jobs:
           name: Run unit (React testing library, Jest) and integration/e2e (Cypress) tests
           command: | 
             docker-compose -f docker-compose.tests.yml logs
-            docker-compose -f docker-compose.tests.yml exec dac-portal npm run test-unit-front
-            docker-compose -f docker-compose.tests.yml exec dac-portal npm run cypress:run
+            docker-compose -f docker-compose.tests.yml exec dac-portal-frontend npm run test-unit-front
+            docker-compose -f docker-compose.tests.yml exec dac-portal-frontend npm run cypress:run
   publish:
     docker:
       - image: cimg/node:16.4.1
@@ -88,7 +93,7 @@ jobs:
           docker_layer_caching: false
       - run: 
           command: | 
-            TAG=0.1.${CIRCLE_BUILD_NUM} 
+            TAG=0.1.${CIRCLE_BUILD_NUM}
             docker build -f Dockerfile.production -t acavalls/ipc-dac-portal:$TAG -t acavalls/ipc-dac-portal:latest .
             echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker push acavalls/ipc-dac-portal:$TAG

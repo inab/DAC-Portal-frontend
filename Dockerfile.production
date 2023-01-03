@@ -19,6 +19,5 @@ ENV PORT=3080
 ENV PORT_API=9090
 
 RUN npm run build
-RUN npm run build-server
 
-CMD ["npm", "run", "start-all-prod"]
+CMD ["npm", "run", "start-all"]
