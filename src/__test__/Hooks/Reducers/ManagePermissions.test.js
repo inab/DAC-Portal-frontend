@@ -18,6 +18,6 @@ test('Permissions reducer updates the state. type=delete ', () => {
         deleteItem(mockRequest, mockRequest.index)
     }) 
 
-    expect(result.current[0].params.values).toBe("testDatasetID")
-
+    expect(result.current[0].params.acl).toBe("testDatasetID")
+    
 })

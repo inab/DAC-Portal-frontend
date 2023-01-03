@@ -8,30 +8,30 @@ import { prettyDOM } from '@testing-library/dom'
 
 let mockItems = [
     {
-        _id: "test_object_id_1",
+        id: "test_object_id_1",
         user: "b9716083-b4c9-48f3-aae1-db81190aae81",
         fileId: "003",
         resource: "nc:172.21.0.1:7080:003",
-        comment: "I need access",
+        value: "I need access",
         status: "Pending"
     },
     {
-        _id: "test_object_id_2",
+        id: "test_object_id_2",
         user: "b9716083-b4c9-48f3-aae1-db81190aae81",
         fileId: "004",
         resource: "nc:172.21.0.1:7080:004",
-        comment: "Please, would you give me access to this dataset too?",
+        value: "Please, would you give me access to this dataset too?",
         status: "Pending"
     }
 ]
 
 let mockAfterClickingItems = [
     {
-        _id: "test_object_id_2",
+        id: "test_object_id_2",
         user: "b9716083-b4c9-48f3-aae1-db81190aae81",
         fileId: "004",
         resource: "nc:172.21.0.1:7080:004",
-        comment: "Please, would you give me access to this dataset too?",
+        value: "Please, would you give me access to this dataset too?",
         status: "Pending"
     }
 ]
