@@ -12,7 +12,7 @@ export default () => {
       try {
         request.type === "get" 
           ? setItems(await getPendingUserRequests(request)) 
-          : request.type === "put" && !request["object-id"] 
+          : request.type === "put" && !request["objectId"] 
             ? setItems(await acceptUserRequest(request, items)) 
             : setItems(await denyUserRequest(request, items))                          
       } catch (err) {
