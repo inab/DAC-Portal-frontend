@@ -7,8 +7,8 @@ export type Routes = {
 }
 
 export declare type DataRequest = {
-    _id: string,
-    user: string,
+    id: string,
+    userId: string,
     fileId: string,
     resource: string,
     comment: string,
@@ -35,14 +35,15 @@ export declare type Assertion = {
 
 
 export declare type Policy = {
-    _id: string,
+    id: string,
     dacId: string,
     fileId: string,
     acl: string,
-    policy: string
+    value: string
 }
 
 export declare type DACInfo = {
+    id?: string,
     dacId?: string,
     dacName?: string,
     dacStudy?: string,
