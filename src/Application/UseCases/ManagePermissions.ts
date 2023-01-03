@@ -39,9 +39,9 @@ const getUsersPermissions = async (request: RequestParams) => {
     const data = await requestsController(http).getUsersRequest(request)
 
     const userPermissions = await usersPermissions(
-        data.flatMap((item: DataRequest) => item.user),
+        data.flatMap((item: DataRequest) => item.userId),
         data.flatMap((item: DataRequest) => item.resource))
-
+    
     return userPermissions.length > 0 ? parseUserPermissions(userPermissions) : []
 }
 
