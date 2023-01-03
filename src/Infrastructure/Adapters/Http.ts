@@ -6,8 +6,8 @@ export const http: Http = {
         const response = await axios.get(url, { ...config, params: params });
         return response.data as T;
     },
-    post: async <T>(url: string, config: Record<string, any>) => {
-        const response = await axios.post(url, { ...config });
+    post: async <T>(url: string, params: Record<string, any>, config: Record<string, any>) => {
+        const response = await axios.post(url, params, { ...config });
         return response.data as T;
     },
     put: async <T>(url: string, params: Record<string, any>, config: Record<string, any>) => {
