@@ -24,7 +24,7 @@ const DisplayRowWithButtons: React.FC<ITableRowPropsWithButtons> = ({ row, index
     const editTableCell = () => {
         const editObject = {
             editable: !editable?.editable,
-            column: "policy",
+            column: "value",
             change: changeItem
         }
         setEditable(editObject);

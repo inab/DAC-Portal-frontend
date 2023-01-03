@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, Form, Row, Col } from "react-bootstrap";
 import { IForm } from './types/Form';
 import { DACInfo } from '../../../../Domain/Entities/Entities';
+import { v4, validate } from 'uuid';
 
 const PageForm: React.FC<IForm> = ({ data, update, change }) => {
 
@@ -14,7 +15,12 @@ const PageForm: React.FC<IForm> = ({ data, update, change }) => {
   
     const submitHandler = (e: any, idx: number) => {
       e.preventDefault();
-      update(data[idx]); 
+      const formCopy : any = {...data[idx]}
+      const isValid = validate(formCopy.id);
+      formCopy.id = isValid ? formCopy.id : v4()
+      update(formCopy); 
+      alert("Updated")
+      //window.location.reload();
     }
 
     return (
