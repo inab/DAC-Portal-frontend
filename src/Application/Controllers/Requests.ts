@@ -23,7 +23,7 @@ export const requestsController = (client: Http)  => ({
         return items.filter(( element: DataRequest, index: number) => index !== request.index);
     },
     deleteUsersPermissions: async (request: any, items: Array<Assertion>) => {
-        await client.delete<Assertion[]>(request.url, request.params, setConfig() );
+        await client.put<Assertion[]>(request.url, request.params, setConfig() );
         return items.filter(( element: Assertion, index: number) => index !== request.index);
     },
     getDACPolicies: async (request: any) => {
@@ -31,18 +31,15 @@ export const requestsController = (client: Http)  => ({
         return response.map((req: Policy) => req);
     },
     updateDACPolicies: async (request: any) => {
-        const response = await client.put<Policy[]>(request.url, request.params, setConfig());
-        return response.map((req: Policy) => req);
+        const response = await client.put<Policy>(request.url, request.params, setConfig());
+        return response;
     },
     getUserDACs: async (request: any) => {
         const response = await client.get<DACInfo>(request.url, request.params, setConfig());
         return response.map((req: DACInfo) => req);
     },
     updateDACInfo: async (request: any) => {
-        console.log("request.params")
-        console.log(request.params)
         const response = await client.put<DACInfo>(request.url, request.params, setConfig());
-
-        return response.map((req: DACInfo) => req);
+        return response;
     }
 })
