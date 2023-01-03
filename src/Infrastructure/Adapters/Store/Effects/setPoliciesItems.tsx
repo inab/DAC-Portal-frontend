@@ -13,7 +13,7 @@ export default () => {
         const { index, value } = input;
         if(index) {
           const updatedItems = [...items];
-          updatedItems[index]['policy'] = value;
+          updatedItems[index]['value'] = value;
           setItems(updatedItems);
         }
       })();
@@ -22,8 +22,9 @@ export default () => {
     useEffect(() => {
       (async () => {
         try {
-          request.type === "get" ? setItems(await getPolicies(request)) :
-                                   setItems(await updatePolicies(request))
+          request.type === "get" 
+            ? setItems(await getPolicies(request))
+            : await updatePolicies(request)
         } catch (err) {
           if (err instanceof Error) {
             console.log(`Error: ${err.message}`)

@@ -4,8 +4,9 @@ const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE_REQUEST: State["request"] = {
     type: 'get',
-    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/data`,
+    url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/info`,
     params: {
+        id: undefined,
         dacId: undefined,
         dacName: undefined,
         dacStudy: undefined,
@@ -13,7 +14,8 @@ const INITIAL_STATE_REQUEST: State["request"] = {
         adminName: undefined,
         adminSurname: undefined,
         emailAddress: undefined,
-        studyDescription: undefined
+        studyDescription: undefined,
+        status: undefined
     }
 }
 
@@ -31,6 +33,7 @@ const dacsRequestsReducer = (state: State, action: Actions): any => {
                 type: 'put',
                 url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/info`,
                 params: {
+                    id: object.id,
                     dacId: object.dacId,
                     dacName: object.dacName,
                     dacStudy: object.dacStudy,
@@ -38,7 +41,8 @@ const dacsRequestsReducer = (state: State, action: Actions): any => {
                     adminName: object.adminName,
                     adminSurname: object.adminSurname,
                     emailAddress: object.emailAddress,
-                    studyDescription: object.studyDescription
+                    studyDescription: object.studyDescription,
+                    status: object.status
                 }
             }
         }

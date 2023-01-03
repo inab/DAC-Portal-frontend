@@ -4,7 +4,7 @@ const { REACT_APP_DAC_PORTAL_API_URL } = process.env
 
 const INITIAL_STATE = {
     type: 'get',
-    url: `${REACT_APP_DAC_PORTAL_API_URL}/user/status`,
+    url: `${REACT_APP_DAC_PORTAL_API_URL}/user/requests`,
     token: localStorage.getItem("react-token")
 }
 

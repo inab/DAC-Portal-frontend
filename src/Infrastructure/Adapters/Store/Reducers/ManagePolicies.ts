@@ -6,10 +6,11 @@ const INITIAL_STATE_REQUEST : State["request"] = {
     type: 'get',
     url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`,
     params: {
-        'dac-id': undefined,
-        'ds-id': undefined,
-        'acl': undefined,
-        'policy': undefined
+        id: undefined,
+        dacId: undefined,
+        fileId: undefined,
+        acl: undefined,
+        value: undefined
     }
 }
 
@@ -27,10 +28,11 @@ const policiesRequestReducer = (state: State, action: Actions) : any => {
                 type: 'put',
                 url: `${REACT_APP_DAC_PORTAL_API_URL}/dac/policies`,
                 params: {
-                    'dac-id': `${object.dacId}`,
-                    'ds-id': `${object.fileId}`,
-                    'acl': `${object.acl}`,
-                    'policy': `${object.policy}`
+                    id: `${object.id}`,
+                    dacId: `${object.dacId}`,
+                    fileId: `${object.fileId}`,
+                    acl: `${object.acl}`,
+                    value: `${object.value}`
                 }
             }
         }   
