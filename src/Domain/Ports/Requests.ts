@@ -4,14 +4,16 @@ export interface RequestParams {
     type: string,
     url: string,
     params: {
-        'format'?: string,
-        'account-id'?: string,
-        'acl'?: string,
-        'object-id'?: string,
-        'values'?: string,
-        'dac-id'?: string,
-        'ds-id'?: string,
-        'policy'?: string
+        id?: string,
+        format?: string,
+        accountId?: string,
+        acl?: string,
+        objectId?: string,
+        values?: string,
+        dacId?: string,
+        fileId?: string,
+        value?: string,
+        status?: string,
     },
     index?: number
 }
