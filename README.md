@@ -1,18 +1,19 @@
-# Data Access Committee (DAC) Portal
+# Data Access Committee (DAC) Portal frontend
 
 ## Summary
 
-This repository contains the prototype for the iPC's DAC-Portal, where entitled users can create new Data Access Committees, and also, invite others to join them (DAC-admin). The DAC-members are able to grant/deny incoming Data Access Requests (DAR) performed by the [iPC's Catalogue](https://github.com/inab/iPC_Data_Portal.git) users. Finally, iPC Catalogue users can check their DAR status from the user interface.
+This repository contains the user interface of the DAC-Portal, built with React (Hooks) and Light Bootstrap theme 4.
 
+## Architecture
 
-## Technologies:
+- Domain: DTOs and Ports (Interfaces)
 
-- Frontend: React (Hooks) + Light Bootstrap 4 Theme. Creation of multiple views and dedicated pages depending on the user's role (RBAC).
+- Application: Use cases. An HTTP repository is injected in a functional way following the dependency inversion principle.
 
-- Backend: DAC-Portal RESTful API - Express/Nodejs with MongoDB. 
+- Infrastructure: Concrete implementations for the Adapters (HTTP, State Mgt - Store), ...
 
-- Integrations:
+## Testing:
 
-  - Security: AuthN/Z Keycloak server.
+- Unit tests: Jest and React Testing Library
 
-  - API's: [Permissions-API](https://github.com/inab/Permissions-API)
+- Integration/e2e tests: Cypress (real-world testing scenario based on user stories)
