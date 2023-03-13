@@ -17,9 +17,11 @@ const fetchPermissionsByUserId = async (userId: string) => {
 const usersPermissions = async (users: Array<string>, files: Array<string> ) => {
     const allUsersPermissions = (await Promise.all(Array.from(new Set(users))
         .map(async (user) => (await fetchPermissionsByUserId(user)))))
-        .flatMap(item => JSON.parse(JSON.stringify(item)))
+        .flatMap(item => item)
 
-    const acceptedUserPermissions = allUsersPermissions
+    const allUsersPermissionsParsed = allUsersPermissions.map(el => JSON.parse(el))
+
+    const acceptedUserPermissions = allUsersPermissionsParsed
         .filter(item => Array.from(new Set(files))
         .includes(item.ga4gh_visa_v1.value))
 
