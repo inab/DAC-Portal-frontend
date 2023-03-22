@@ -19,7 +19,7 @@ const usersPermissions = async (users: Array<string>, files: Array<string> ) => 
         .map(async (user) => (await fetchPermissionsByUserId(user)))))
         .flatMap(item => item)
 
-    const allUsersPermissionsParsed = allUsersPermissions.map(el => JSON.parse(el))
+    const allUsersPermissionsParsed = allUsersPermissions.map(el => el)
 
     const acceptedUserPermissions = allUsersPermissionsParsed
         .filter(item => Array.from(new Set(files))
